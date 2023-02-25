@@ -11,6 +11,8 @@ var startTime;
 /** Stores the details of elapsed time when paused */
 var elapsedTimeWhenPaused;
 
+var reachedDailyWorkout = false;
+
 function setStartTime() {
     if (elapsedTimeWhenPaused) {
         startTime = new Date();
@@ -29,14 +31,20 @@ function startTimer() {
     setStartTime();
 
     var initTime = 0;
-    var timetotal = 100;
+    var timetotal = 200;
 
     elapsedTimeIntervalRef = setInterval(() =>{
         elapsedTimeText.innerText = timeAndDateHandling.getElapsedTime(startTime);
-        var progressBarWidth = initTime / timetotal * 100;
-        if (progressBarWidth > 100) progressBarWidth = 100;
-        prog_bar.style.width = progressBarWidth + "%";
-        initTime = initTime + 1;
+
+        if (progressBarWidth < 90) {
+            var progressBarWidth = initTime / timetotal * 100;
+            prog_bar.style.width = progressBarWidth + "%";
+            initTime = initTime + 1;
+        }
+        else{
+            reachedDailyWorkout = true;
+            prog_bar.style.background-color = "#7CFC00";
+        }
 
     }, 1000);
 }
