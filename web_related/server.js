@@ -123,10 +123,9 @@ router.post("/session_ended",urlencodedParser, (req, res) => {
     req.session.session_on_going = null;
     let user_id = req.body.username;
     register_if_not_done(user_id);
-    let earned_credit = req.body.credit;
+    let earned_credit = parseInt(req.body.credit);
     let previous_credit = parseInt(client_credit_map.get(user_id));
     client_credit_map.set(user_id,earned_credit+previous_credit)
-    res.end(earned_credit);
     client_device_map.delete(user_id);
     res.end("1");
 });
@@ -175,6 +174,7 @@ router.post('/log_in',urlencodedParser, (req, res) => {
 router.post('/request_available_credit',urlencodedParser, (req, res) => {
     let user_id = req.body.username;
     register_if_not_done(user_id);
+    console.log(client_credit_map.get(user_id).toString())
     res.end(client_credit_map.get(user_id).toString())
 });
 
