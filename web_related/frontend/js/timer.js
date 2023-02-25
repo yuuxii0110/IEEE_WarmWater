@@ -15,12 +15,10 @@ function startTimer() {
     // Create a new data object
     startTime = new Date();
     var initTime = 0;
-    var timetotal = 900;
+    var timetotal = 100;
 
     elapsedTimeIntervalRef = setInterval(() =>{
         elapsedTimeText.innerText = timeAndDateHandling.getElapsedTime(startTime);
-        // console.log("Hello");
-        // progress(initTime, timetotal, prog_bar);
         var progressBarWidth = initTime * prog_bar.width / timetotal;
         prog_bar.width = progressBarWidth;
         initTime ++;
