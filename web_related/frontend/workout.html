@@ -26,14 +26,14 @@
             btn.style.display = "block";
             terminate_btn.style.display = "none";
             instruction.style.display = "none";
-            bicycleImg.src = "images/cycling-still.png";
+            
 
             startTimer();
         }
 
         function stop_session(){
             $.post("http://" + location.hostname + ":8080/from_device_disconnect_request",{username: user_id, device_id: device_id}, function(data){
-                $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, earned_credit: credit.toString()}, function(data){
+                $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, earned_credit: earnedToken.innerText.toString()}, function(data){
                     // user_name.innerText = user_id;
                     location.reload();
                 }); 
@@ -81,6 +81,7 @@
             if(msg=="1"){
                 console.log("i am rest!", msg);
                 pauseTimer();
+                bicycleImg.src = "images/cycling-still.png";
             }
         });
 

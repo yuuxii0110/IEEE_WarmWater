@@ -32,13 +32,14 @@ function subscribe_mqtt_topics(){
 }
 
 function calculate_credit(time, energy, weightage=1){
-    return Math.round(weightage*(time*0.000025 + energy*0.00005));
+    return Math.round(weightage*(0.1(time*0.000025 + energy*0.00005)));
 }
 
 function register_if_not_done(user_id){
     //initialize client credit if never logged in
     if(!client_credit_map.get(user_id)){
         client_credit_map.set(user_id, 0);
+        console.log(client_credit_map)
     }
 }
 
@@ -123,10 +124,10 @@ router.post("/session_ended",urlencodedParser, (req, res) => {
     req.session.session_on_going = null;
     let user_id = req.body.username;
     register_if_not_done(user_id);
-    let earned_credit = parseInt(req.body.credit);
+    let earned_credit = parseInt(req.body.earned_credit);
     let previous_credit = parseInt(client_credit_map.get(user_id));
-    client_credit_map.set(user_id,earned_credit+previous_credit)
-    console.log("log user credit, ", client_credit_map.get(user_id));
+    client_credit_map.set(user_id,earned_credit+previous_credit);
+    
     client_device_map.delete(user_id);
     res.end("1");
 });
