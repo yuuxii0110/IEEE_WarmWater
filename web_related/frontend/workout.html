@@ -23,6 +23,7 @@
             btn.style.display = "block";
 
             instruction.style.display = "none";
+            bicycleImg.src = "images/cycling.gif";
 
             startTimer();
         }
@@ -128,14 +129,14 @@
             font-size: 25px;    
         }
 
-        #progressBar {
+        .progressBar {
             width: 90%;
             margin: 10px auto;
             height: 22px;
             background-color: #0A5F44;
         }
 
-        #progressBar div {
+        .progressBar #bar {
             height: 100%;
             float: left;
             text-align: right;
@@ -186,8 +187,8 @@
         <div class="right-col">
             <h2>Time Elapsed: <span class ="elapsed-time-text">00:00</span></h2>
 
-            <div id="progressBar">
-                <div class="bar"></div>
+            <div class="progressBar">
+                <div id="bar"></div>
             </div>
 
             <h2>Credits accum: <span id="token">0</span> <img src="images/coin.png" width="15" height="15"></h2>
@@ -200,6 +201,7 @@
         var elapsedTimeText = document.getElementsByClassName("elapsed-time-text")[0];
         var earnedToken = document.getElementById("token");
         var bicycleImg = document.getElementsById("bicycle");
+        var prog_bar = document.getElementById("bar");
 
     </script>
 
