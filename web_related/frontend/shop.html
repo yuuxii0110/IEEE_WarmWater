@@ -66,9 +66,67 @@
 
         .main-container {
             display: flex;
-            background-color: #66CCCC;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: center;
+            margin-bottom: 100px;
+            max-width: 1200px;
         }
 
+        .item-banner {
+            cursor: pointer;
+            /* flex: 0 0 16%; */
+            margin: 15px;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+            text-align: center;
+            border-radius: 10px;
+            height: 400px;
+            width: 210px;
+            background-color:white;
+        }
+
+        .item-banner img, .hover-banner img {
+            margin-top: 15px;
+            width: 90%;
+            border-radius: 10px;
+            height: 150px;
+        }
+
+        .item-banner .text {
+            padding: 0 10%;
+            text-align: left;
+            height: 60%;
+        }
+
+        .item-banner .text h2{
+            color: #808080;
+            font-size: 30px;
+            padding-bottom: 5px;
+        }
+
+        .item-banner .text p{
+            font-size: 18px;
+            color: black;
+        }
+
+        /* Price text container */
+        .price-container {
+            width:100%;
+            display:flex;
+            padding-top: 10px;
+        }
+
+        .price {
+            display:block;
+            padding: 0 10%;
+        }
+
+        .price p{
+            font-size: 23px;
+            font-weight: 550;
+            text-align: left;
+            color: purple;
+        }
         .textbox {
             padding-top: 150px;
             text-align: center;
@@ -153,6 +211,10 @@
             font-size: 50px;
         }
 
+        .title {
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
@@ -175,8 +237,179 @@
     </div>
 
     <!-- Main container -->
-    <div class="main-container">
-        
+    <div style="background-color: #66CCCC;">
+        <div class="title">
+            <h2>Supplementary</h2>
+        </div>
+            <div class="main-container">
+                <div class="item-banner">
+                    <div>
+                        <img src="images/menu/17.png"  alt="d1">
+                        <div class="text" id="pizzaname">
+                            <h2>Rose Shrimp</h2>
+                            <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">
+                            <p class="float-left">$12.00</p>
+                        </div>
+                        <div class="button-col">
+                            <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-banner">
+                    <div>
+                        <img src="images/menu/17.png"  alt="d1">
+                        <div class="text" id="pizzaname">
+                            <h2>Rose Shrimp</h2>
+                            <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">
+                            <p class="float-left">$12.00</p>
+                        </div>
+                        <div class="button-col">
+                            <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-banner">
+                    <div>
+                        <img src="images/menu/17.png"  alt="d1">
+                        <div class="text" id="pizzaname">
+                            <h2>Rose Shrimp</h2>
+                            <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">
+                            <p class="float-left">$12.00</p>
+                        </div>
+                        <div class="button-col">
+                            <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-banner">
+                    <div>
+                        <img src="images/menu/17.png"  alt="d1">
+                        <div class="text" id="pizzaname">
+                            <h2>Rose Shrimp</h2>
+                            <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">
+                            <p class="float-left">$12.00</p>
+                        </div>
+                        <div class="button-col">
+                            <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-banner">
+                    <div>
+                        <img src="images/menu/17.png"  alt="d1">
+                        <div class="text" id="pizzaname">
+                            <h2>Rose Shrimp</h2>
+                            <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">
+                            <p class="float-left">$12.00</p>
+                        </div>
+                        <div class="button-col">
+                            <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="title">
+                <h2>Vitamin</h2>
+            </div>
+                <div class="main-container">
+                    <div class="item-banner">
+                        <div>
+                            <img src="images/menu/17.png"  alt="d1">
+                            <div class="text" id="pizzaname">
+                                <h2>Rose Shrimp</h2>
+                                <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                        </div>
+                        <div class="price-container">
+                            <div class="price">
+                                <p class="float-left">$12.00</p>
+                            </div>
+                            <div class="button-col">
+                                <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-banner">
+                        <div>
+                            <img src="images/menu/17.png"  alt="d1">
+                            <div class="text" id="pizzaname">
+                                <h2>Rose Shrimp</h2>
+                                <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                        </div>
+                        <div class="price-container">
+                            <div class="price">
+                                <p class="float-left">$12.00</p>
+                            </div>
+                            <div class="button-col">
+                                <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-banner">
+                        <div>
+                            <img src="images/menu/17.png"  alt="d1">
+                            <div class="text" id="pizzaname">
+                                <h2>Rose Shrimp</h2>
+                                <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                        </div>
+                        <div class="price-container">
+                            <div class="price">
+                                <p class="float-left">$12.00</p>
+                            </div>
+                            <div class="button-col">
+                                <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-banner">
+                        <div>
+                            <img src="images/menu/17.png"  alt="d1">
+                            <div class="text" id="pizzaname">
+                                <h2>Rose Shrimp</h2>
+                                <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                        </div>
+                        <div class="price-container">
+                            <div class="price">
+                                <p class="float-left">$12.00</p>
+                            </div>
+                            <div class="button-col">
+                                <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-banner">
+                        <div>
+                            <img src="images/menu/17.png"  alt="d1">
+                            <div class="text" id="pizzaname">
+                                <h2>Rose Shrimp</h2>
+                                <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                        </div>
+                        <div class="price-container">
+                            <div class="price">
+                                <p class="float-left">$12.00</p>
+                            </div>
+                            <div class="button-col">
+                                <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="wrapper">
