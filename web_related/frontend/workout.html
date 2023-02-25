@@ -134,6 +134,25 @@
             text-decoration: none;
         }
 
+        .terminate-button-container  {
+            display: flex;
+            justify-content: right;
+            padding: 50px 0;
+        }
+
+        .terminate-button-container input {
+            color: #131230;
+            background: red;
+            font-family: "Roboto", sans-serif;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid transparent;
+            display: inline-block;
+            padding: 12px 30px;
+            text-decoration: none;
+        }
+
         .instruction-container {
             text-align: center;
         }
@@ -148,6 +167,7 @@
             
         .right-col {
             flex: 50%;
+            display: block;
         }
 
         .col-content h3{
@@ -156,7 +176,7 @@
 
         .progressBar {
             width: 90%;
-            margin: 10px auto;
+            margin: 25px auto;
             height: 22px;
             background-color: #0A5F44;
         }
@@ -170,6 +190,10 @@
             width: 0%;
             background-color: #CBEA00;
             box-sizing: border-box;
+        }
+
+        #token {
+            font-size: 30px;
         }
 
     </style>
@@ -212,13 +236,31 @@
         </div>
 
         <div class="right-col">
-            <h2>Time Elapsed: <span class ="elapsed-time-text">00:00</span></h2>
-
-            <div class="progressBar">
-                <div id="bar"></div>
+            <div style="height: 80px; padding-bottom: 30px;">
+                <h2>Time Elapsed: <span class ="elapsed-time-text">00:00</span></h2>
+            
+                <div class="progressBar">
+                    <div id="bar"></div>
+                </div>
             </div>
 
-            <h2>Credits accum: <span id="token">0</span> <img src="images/coin.png" width="15" height="15"></h2>
+            <div style="height: 80px; padding-bottom: 50px;">
+                <h2>Tokens earn from current workout</h2>
+                
+                <div style="display: flex;">
+                    <div style="float:left; padding-left: 50px; flex: 50%;">
+                        <img src="images/coin.png" width="75" height="75" style="padding: 20px">
+                    </div>
+    
+                    <div style="flex: 50%;">
+                        <span id="token">0</span>
+                    </div>
+                </div>  
+            </div>
+
+            <div class="terminate-button-container">
+                <input type="button" value="Unpair/Stop Machine" onclick="terminate_machine()" id="terminate_button">
+            </div>
         </div>
     </div>
     
@@ -232,8 +274,6 @@
         var prog_bar = document.getElementById("bar");
         var user_name = document.getElementById("user_name");
 
-        var bar_width = prog_bar.style.width + "50%";
-        console.log(bar_width);
 
     </script>
 
@@ -262,7 +302,7 @@
                             <h2>Opening Hours</h2>
                         </div>
                         <div class="col-content">
-                            <table>
+                            <table> 
                                 <tr>
                                     <td>Monday.............Closed</td>
                                 </tr>
