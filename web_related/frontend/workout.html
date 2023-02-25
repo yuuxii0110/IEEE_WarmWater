@@ -5,7 +5,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/timer.js"></script>
+    <script src="lib/socket.io/client-dist/socket.io.min.js"></script>
+    <script src="lib/jquery/dist/jquery.min.js"></script>
+
+    <script>
+        // To Do
+        // 1. When start session button is pressed, send a req to server
+        
+        // 2. When end session button is pressed, req for token earned
+        function start_stop_session() {
+            const btn = document.getElementById("start_button");
+
+            if (btn.value == 'Start') {
+                // Start session
+                console.log("Start session");
+                btn.value = 'End';
+            }
+            else {
+                console.log("End session");
+                btn.value = "Start";
+            }
+
+        }
+
+        function start_action(){
+            //To do
+        }
+
+        socket = io('http://'+ location.hostname + ':8080', {
+            reconnectionDelay: 1000,
+            reconnection: true,
+            reconnectionAttemps: 10,
+            transports: ['websocket'],
+            agent: false,
+            upgrade: false,
+            rejectUnauthorized: false
+        });
+
+        socket.on(user_id + '_started_workout', function(msg) {
+            if(msg=="1"){
+                start_action();
+            }
+        });
+
+        socket.on(user_id + '_disconnected', function(msg){
+            $.post("http://" + location.hostname + ":8080/workout_stopped",{username: user_id, device: device_id}, function(data){
+                location.reload();
+            });
+        });
+
+        socket.on(user_id + '_feedback', function(msg) {
+            //to do: msg is the current credit earned
+        });
+        
+
+    </script>
     <style>
         body, html {
             height: 100%;
