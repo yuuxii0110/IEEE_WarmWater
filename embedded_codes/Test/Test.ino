@@ -158,20 +158,22 @@ void callback(char* topic, byte* payload, unsigned int len) {
       ledcWriteTone(channel, frequency);// generate a square wave of the specified frequency on the buzzer pin
       buzzer=1;
       if (*payload=='0'){
-      konek=0;
-      working_out=0;
-      prev_working_out=0;
-      moving=0;
-      Energy=0;
-      workoutTime=0;
-      }
-    if (*payload=='1'){
-      konek=1;
-      working_out=0;
-      prev_working_out=0;
-      moving=0;
-      workoutTimeTotal=0;
-      Serial.println("Connected");
+        konek=0;
+        working_out=0;
+        prev_working_out=0;
+        moving=0;
+        Energy=0;
+        workoutTime=0;
+        digitalWrite(LED,LOW);
+        Serial.println("Disconnected");
+        }
+      if (*payload=='1'){
+        konek=1;
+        working_out=0;
+        prev_working_out=0;
+        moving=0;
+        workoutTimeTotal=0;
+        Serial.println("Connected");
       }
     std::string useridtemp="";
 //    Serial.println(len);
