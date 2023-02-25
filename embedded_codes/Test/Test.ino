@@ -31,7 +31,7 @@ int LED = 26;
 int min_bright=100;
 unsigned long prev=0;
 
-unsigned long startT,workoutTime;
+unsigned long startT,workoutTime,workoutTimeTotal;
 unsigned long Energy=0;
 unsigned long refresh=0;
 
@@ -93,11 +93,14 @@ void loop() {
         prev=millis();
         moving=0;
       }
+      else{
       if ((now-prev)>5000) {//stop for more than 5 sec
+        Serial.println("trigerred");
         working_out=0;
+        prev=millis();
         } 
+      }
     }
-
     if(moving && !working_out){
       working_out=1;
     }
@@ -115,26 +118,28 @@ void loop() {
       else if (working_out==0){//end
         digitalWrite(LED,LOW);
         workoutTime=millis()-startT;
+        workoutTimeTotal+=workoutTime;
         char myTime[8]; // buffer for converted std::string
-        sprintf(myTime, "%d", workoutTime); // convert int to const char* std::string
+        sprintf(myTime, "%d", workoutTimeTotal); // convert int to const char* std::string
         char myEnergy[8]; // buffer for converted std::string
         sprintf(myEnergy, "%d", Energy); // convert int to const char* std::string
-        std::string msg=userid + "/" + deviceid + "/"+ myTime +"/" + myEnergy;
-        client.publish("disconnect_device",msg.c_str());
-        Energy=0;
+        std::string msg=userid + "/" + myEnergy + "/" +myTime;
+        client.publish("workout_pause",msg.c_str());
         //Serial.println(msg);
       }
       prev_working_out=working_out;
     }
-    if((now-refresh)>5000&&(working_out)){// send data every 5sec
-        workoutTime=millis()-workoutTime;
+    if((now-refresh)>2000&&(working_out)){// send data every 5sec
+        workoutTime=millis()-startT;
+        workoutTimeTotal+=workoutTime;
         char myTime[8]; // buffer for converted std::string
-        sprintf(myTime, "%d", workoutTime); // convert int to const char* std::string
+        sprintf(myTime, "%d", workoutTimeTotal); // convert int to const char* std::string
         char myEnergy[8]; // buffer for converted std::string
         sprintf(myEnergy, "%d", Energy); // convert int to const char* std::string
         std::string msg=userid + "/" + myEnergy + "/" +myTime;
         client.publish("energy_and_time",msg.c_str());
         refresh=now;
+        workoutTimeTotal-=workoutTime;
       }
   }
 }
@@ -161,6 +166,7 @@ void callback(char* topic, byte* payload, unsigned int len) {
       working_out=0;
       prev_working_out=0;
       moving=0;
+      workoutTimeTotal=0;
       Serial.println("Connected");
 //      ledcWriteTone(channel, frequency); // generate a square wave of the specified frequency on the buzzer pin
 //      delay(500); // wait for 1 second
