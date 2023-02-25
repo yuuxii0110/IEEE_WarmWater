@@ -7,6 +7,7 @@ const io = new Server(server);
 const mqtt = require('mqtt');
 const session = require('express-session');
 const bodyParser = require("body-parser");
+const { Socket } = require('dgram');
 const router = express.Router();
 var client_device_map = new Map();
 var client_credit_map = new Map();
@@ -25,6 +26,7 @@ router.use(session({
 function subscribe_mqtt_topics(){
   client.subscribe("connection_established");
   client.subscribe("disconnect_device");
+  client.subscribe("energy_and_time");
   console.log("mqtt subscribed")
 }
 
@@ -42,6 +44,8 @@ function register_if_not_done(user_id){
 function PairDevices(user_id, device_id){
     const topic = "/pair_request/" + device_id;
     const message = "1/" + user_id;
+    client_device_map.set(user_id, device_id);
+    console.log(user_id + " connected to device: " + device_id);
     //send to esp32
     client.publish(topic, message);
     //send to webpage
@@ -70,25 +74,35 @@ app.get(link,function(req,res){
 
 
 client.on("message", function (topic, payload){
-    if (topic == "connection_established") {
-        let details = payload.split("/");
+    msg = payload.toString();
+    console.log(msg);
+    if (topic == "workout_started") {
+        let details = msg.split("/");
         let user_id = details[0];
-        let device_id = details[1];
-        client_device_map.set(user_id, device_id);
-        console.log(user_id + " connected to device: " + device_id);
+        io.emit(user_id + '_started_workout', "1");
     }
 
     else if(topic == "disconnect_device"){
-        let details = payload.split("/");
+        let details = msg.split("/");
         let user_id = details[0];
         let device_id = details[1];
         let time = details[2];
         let energy = details[3];
         let earned_credit = calculate_credit(time,energy);
         let previous_credit = parseInt(client_credit_map.get(user_id));
-        client_credit_map.set(user_id,earned_credit+previous_credit)
-        io.emit(user_id + '_disconnected', credit);
+        client_credit_map.set(user_id,earned_credit+previous_credit);
+
+        io.emit(user_id + '_disconnected', earned_credit);
         client_device_map.delete(user_id);
+    }
+
+    else if(topic == "energy_and_time"){
+        let details = msg.split("/");
+        let user_id = details[0];
+        let energy = details[1];
+        let time = details[2];
+        let earned_credit = calculate_credit(time,energy);
+        io.emit(user_id + '_feedback', earned_credit);
     }
 });
 
