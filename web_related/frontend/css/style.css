@@ -3,6 +3,12 @@
     padding: auto;
 }
   
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
 #wrapper {
     margin: auto;
     min-width: 800px;

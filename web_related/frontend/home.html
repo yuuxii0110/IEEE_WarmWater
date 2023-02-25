@@ -1,42 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Login </title>
+    <title>Warm Water</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/style.css">
+    <script src="lib/socket.io/client-dist/socket.io.min.js"></script>
+    <script src="lib/jquery/dist/jquery.min.js"></script>
     <style>
-        .login-container {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            margin-top: 50px;
-            margin-bottom: 230px;
-            width: 65%;
-            /* border: 1px solid black; */
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
+        body, html {    
+            height: 100%;
+            margin: 0;
         }
 
-        .form-container {
-            width:100%;
-            display:flex;
-            padding-top: 10px;
-        }
+        .welcome-container {
+            background-image: url("images/index-bg.jpg");
 
-        .form-container label{
-            padding-left: 40px;
-            padding-bottom: 40px;
-        }
+            /* Full height */
+            height: 85%;
 
-        .form-container input{
-            margin-bottom: 20px;
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         .textbox {
-            padding: 25px 0px;
+            padding-top: 150px;
             text-align: center;
-            color: black;
+            color: #FFFFFF;
         }
         
         .textbox p {
@@ -44,49 +36,58 @@
             text-transform: capitalize;
         }
 
-        .button1{
-            text-align: center;
+        .button {
+            color: #131230;
+            background: #ffb606;
+            font-family: "Roboto", sans-serif;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid transparent;
+            display: inline-block;
+            padding: 12px 30px;
+            text-decoration: none;
         }
 
+        .button-padding {
+            margin-top: 50px;
+        }
+
+        .button:hover {
+            color: #131230;
+            background: transparent;
+            border: 1px solid #ffb606
+        }
 
     </style>
 </head>
 <body>
+    <!-- Navigation bar -->
+    <div class="nav-container">
+        <nav>
+            <div id="left-nav">
+                <a href="index.html"><img src="images/logo.png" width="55" height="50" alt="logo"></a>
+            </div>
+            <ul>
+                <li><a href="main.html">Pair Device</a></li>
+                <li><a href="workout.html">Workout</a></li>
+                <li><a href="index.html">About Us</a></li>
+                <li><a href="index.html">Programmes</a></li>
+
+                <li style="float: right;"><a href="login.html">Login</a>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main container -->
+    <div class="welcome-container">
+        <div class="textbox">
+            <h1>We care for the elderly</h1>
+            <a href="login.html" class="button button-padding">Login Now</a>
+        </div>
+    </div>
+
     <div id="wrapper">
-        <!-- Navigation bar -->
-        <div class="nav-container">
-            <nav>
-                <div id="left-nav">
-                    <a href="index.html"><img src="images/logo.png" width="55" height="50" alt="logo"></a>
-                </div>
-                <ul>
-                    <li><a href="main.html">Pair Device</a></li>
-                    <!-- <li><a href="workout.html">Workout</a></li>
-                    <li><a href="index.html">About Us</a></li>
-                    <li><a href="index.html">Programmes</a></li> -->
-    
-                    <li style="float: right;"><a class="active" href="login.html">Login</a>
-                </ul>
-            </nav>
-        </div>
-
-        <!-- Main container -->
-        <div class="login-container">
-            <div class="textbox">
-                <h1>Login</h1>
-            </div>
-            <div class="form-container">
-                <label for="user">*Username</label>
-                <input type="user" name="user" id="user" required><br>
-
-                <label for="password">*Password</label>
-                <input type="password" name="password" id="password" required><br>
-
-                <input type="submit" value="Submit" name='submit' class="button1" onclick="submitLogin()">
-            </div>
-        </div>
-
-
         <!-- Footer Area -->
         <div class="footer-container">
             <div class="three-columns footer-padding">
@@ -152,24 +153,4 @@
         </div>
     </div>
 </body>
-
-<script src="lib/socket.io/client-dist/socket.io.min.js"></script>
-<script src="lib/jquery/dist/jquery.min.js"></script>
-
-<script type="text/javascript">
-    function submitLogin(){
-        let pw = document.getElementById("password").value;
-        let user = document.getElementById("user").value;
-        $.post("http://" + location.hostname + ":8080/log_in",{username: user, password: pw}, function(data){
-            console.log("data")
-            if(data == "1"){
-                let new_url = "http://" + location.hostname + ":8080/WarmWater"
-                location.replace(new_url);
-            }
-            else{
-                alert("you bad bad");
-            }
-        }); 
-    }
-</script>
 </html>

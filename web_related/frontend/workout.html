@@ -3,23 +3,24 @@
 <head>
     <title>Warm Water</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/style.css">
+    <script>
+
+        // To Do
+        // 1. When start session button is pressed, send a req to server
+        // 2. When end session button is pressed, req for token earned
+        
+    </script>
     <style>
         body, html {
             height: 100%;
             margin: 0;
         }
 
-        .welcome-container {
-            background-image: url("images/index-bg.jpg");
-
-            /* Full height */
-            height: 85%;
-
-            /* Center and scale the image nicely */
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
+        .status-container {
+            display: flex;
+            background-color: #66CCCC;
         }
 
         .textbox {
@@ -47,13 +48,31 @@
         }
 
         .button-padding {
-            margin-top: 50px;
+            margin: 40px;
         }
 
         .button:hover {
             color: #131230;
             background: transparent;
             border: 1px solid #ffb606
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 100px;
+        }
+        
+        .left-col {
+            flex: 50%
+        }
+
+        .left-col-img {
+            padding-top: 100px;
+        }
+            
+        .right-col {
+            flex: 50%;
         }
 
     </style>
@@ -63,24 +82,35 @@
     <div class="nav-container">
         <nav>
             <div id="left-nav">
-                <a href="index.html"><img src="images/logo.png" width="55" height="50" alt="logo"></a>
+                <img src="images/logo.png" width="55" height="50" alt="logo"></a>
             </div>
             <ul>
-                <li><a href="index.html">Info</a></li>
-                <li><a href="index.html">About Us</a></li>
-                <li><a href="index.html">Programmes</a></li>
-
-                <li style="float: right;"><a href="login.html">Login</a>
+                <li>Pair Device</a></li>
+                <li style="float: right;">Login</a>
             </ul>
         </nav>
     </div>
 
     <!-- Main container -->
-    <div class="welcome-container">
-        <div class="textbox">
-            <h1>We care for the elderly</h1>
-            <a href="login.html" class="button button-padding">Login Now</a>
+    <div class="status-container">
+        <div class="left-col">
+            <div class="left-col-img">
+                <img src="images/cycling.gif" width="240" height="200" alt="logo">
+            </div>
+
+            <!-- End session button -->
+            <div class="button-container">
+                <a class="button button-padding">End Session</a>
+            </div>
         </div>
+
+        <div class="right-col">
+            <h2>Time Elapsed: <span class="time-elapsed">00:00</span></h2>
+            <h2>Total calories burnt: <span class="calories">0</span> cal</h2>
+            <h2>Credits accum: <span class="time-elapsed">0</span> <img src="images/coin.png" width="15" height="15"></h2>
+
+        </div>
+        
     </div>
 
     <div id="wrapper">
@@ -90,7 +120,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="logo-content">
-                            <a href="index.html"><img src="images/logo.png"  width=90px height=75px alt=""></a>
+                            <img src="images/logo.png"  width=90px height=75px alt=""></a>
                         </div>
                         <div class="logo-content">
                             <p>Caring is sharing</p>
