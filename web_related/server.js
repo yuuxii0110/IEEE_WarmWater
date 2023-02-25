@@ -27,6 +27,7 @@ function subscribe_mqtt_topics(){
   client.subscribe("workout_started");
   client.subscribe("disconnect_device");
   client.subscribe("energy_and_time");
+  client.subscribe("workout_pause");
   console.log("mqtt subscribed")
 }
 
@@ -57,7 +58,7 @@ subscribe_mqtt_topics();
 
 link = '/WarmWater';
 app.get(link,function(req,res){    
-    if(req.session.session_started){
+    if(req.session.session_on_going){
         res.sendFile(__dirname + '/frontend/workout.html');
     }
     else if(req.session.logged_in){
@@ -81,6 +82,12 @@ client.on("message", function (topic, payload){
         let user_id = details[0];
         io.emit(user_id + '_started_workout', "1");
         console.log("send start to webpage");
+    }
+
+    else if(topic == "workout_pause"){
+        let user_id = msg
+        io.emit(user_id + '_pause_workout', "1");
+        console.log("send pause to webpage");
     }
 
     else if(topic == "disconnect_device"){
@@ -108,8 +115,8 @@ client.on("message", function (topic, payload){
     }
 });
 
-router.post("/workout_stopped",urlencodedParser, (req, res) => {
-    req.session.session_started = null;
+router.post("/session_ended",urlencodedParser, (req, res) => {
+    req.session.session_on_going = null;
     res.end("1");
 });
 
@@ -117,7 +124,7 @@ router.post("/from_device_connection_request",urlencodedParser, (req, res) => {
     let user_id = req.body.username;
     let device_id = req.body.device;
     setTimeout(PairDevices, 2000, user_id, device_id);    
-    req.session.session_started = true;
+    req.session.session_on_going = true;
     res.end("1");
 });
 
@@ -159,7 +166,7 @@ router.post('/session_end',urlencodedParser, (req, res) => {
 router.post('/request_available_credit',urlencodedParser, (req, res) => {
     let user_id = req.body.username;
     register_if_not_done(user_id);
-    res.end(client_credit_map.get(user_id))
+    res.end(client_credit_map.get(user_id).toString())
 });
 
 server.listen(8080, () => {

@@ -32,10 +32,9 @@
         }
 
         function stop_session(){
-            $.post("http://" + location.hostname + ":8080/workout_stopped",{username: user_id, earned_credit: credit}, function(data){
-                
+            $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, earned_credit: credit}, function(data){
+                location.reload();
             }); 
-
         }
 
         socket = io('http://'+ location.hostname + ':8080', {
@@ -54,9 +53,15 @@
             }
         });
 
+        socket.on(user_id + '_pause_workout', function(msg){
+            console.log("i am rest!");
+            //rest_template();
+
+        });
+
         socket.on(user_id + '_disconnected', function(msg){
             console.log("i am quit!")
-            $.post("http://" + location.hostname + ":8080/workout_stopped",{username: user_id, device: device_id}, function(data){
+            $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, device: device_id}, function(data){
                 location.reload();
             });
         });
