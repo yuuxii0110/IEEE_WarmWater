@@ -1,0 +1,174 @@
+* {
+    margin: auto;
+    padding: auto;
+}
+  
+#wrapper {
+    margin: auto;
+    min-width: 800px;
+    background-color: #89dee2;
+}
+
+.nav-container {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+nav {
+    margin: auto;
+    max-width: 1300px;
+    overflow: hidden;
+    width: 100%;
+    background-color: white;
+}
+
+/* make image float on the left-side */
+#left-nav {
+    margin: 10px 30px 15px 10px;
+    float: left;
+}
+
+#right-nav {
+    margin: 10px 30px 15px 10px;
+    float: right;
+}
+
+nav ul {
+    font-size: 24px;
+    font-weight: 600;
+    list-style-type: none;
+    margin: 0;
+    padding: 15px 0px 5px 0px;
+    overflow: hidden;
+    text-align: center;
+    /* background-color: #F5F5F5; */
+}
+
+nav li {
+    float: left;
+}
+
+/* Display menu horizontally */
+nav li a {
+    display: block;
+    color: #000000;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 500ms;
+}
+
+.active {
+    /* when page is selected */
+    background-color: #527c88;
+}
+
+/* Change the link color to grey on hover */
+nav li a:hover {
+    background-color: #B8E0E3;
+}
+
+/* End of Navbar styling */
+
+/* Animation */
+@keyframes fade {
+    from {
+        opacity: .4
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+h1 {
+    color: #fff;
+    font-family: "Playfair Display", serif;
+    font-size: 60px;
+    font-weight: 700;
+    font-style: italic
+}
+
+h3 {
+    color: #131230;
+    font-family: "Playfair Display", serif;
+    font-size: 36px;
+    font-weight: 700;
+}
+
+p {
+    color: #fff;
+    /* font-family: "Roboto", sans-serif; */
+    font-size: 18px;
+    font-weight: 400;
+}
+
+/* Footer styling */
+.footer-container {
+    background-color: white;
+    box-shadow: 0 -4px 8px -4px rgba(0, 0, 0, 0.2), 0 -6px 20px -6px rgba(0, 0, 0, 0.19);
+}
+
+.footer-padding {
+    padding-top: 15px;
+}
+
+.three-columns {
+    background-color: white;
+    max-width: 1300px;
+}
+
+.row {
+    padding: 0 8%;
+    display: flex;
+    align-items: center;
+}
+
+.col {
+    -ms-flex: 0 0 33.333333%;
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+    height: 150px;
+}
+
+.logo-content {
+    display: flex;
+    align-content: center;
+}
+
+.logo-content img {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.col-content {
+    margin-top: 5px;
+    display: flex;
+    align-content: flex-start;
+}
+
+.col-content h2 {
+    margin-bottom: 8px;
+}
+
+.padding-left {
+    padding-left: 30%;
+}
+
+.footer-container table {
+    text-align: left;
+    border-spacing: 0 0px;
+}
+
+.footer-container td {
+    padding-left: 10px;
+    font-size: 14px;
+}
+
+.three-columns p {
+    font-size: 14px;
+    color: #000000;
+    
+}
+
+/* End of footer styling */
