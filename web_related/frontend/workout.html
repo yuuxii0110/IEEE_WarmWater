@@ -26,7 +26,6 @@
             btn.style.display = "block";
             terminate_btn.style.display = "none";
             instruction.style.display = "none";
-            bicycleImg.src = "images/cycling-still.png";
 
             startTimer();
         }
@@ -81,6 +80,7 @@
             if(msg=="1"){
                 console.log("i am rest!", msg);
                 pauseTimer();
+                bicycleImg.src = "images/cycling-still.png";
             }
         });
 
@@ -148,6 +148,7 @@
             display: none;
             padding: 12px 30px;
             text-decoration: none;
+            border-radius: 12px;
         }
 
         .terminate-button-container  {
@@ -167,14 +168,19 @@
             display: inline-block;
             padding: 12px 30px;
             text-decoration: none;
+            border-radius: 12px;
         }
 
         .instruction-container {
             text-align: center;
         }
 
+        .instruction-container #instruction {
+            font-size: 26px;
+        }
+
         .left-col {
-            flex: 50%
+            flex: 45%;
         }
 
         .left-col-img {
@@ -182,7 +188,7 @@
         }
             
         .right-col {
-            flex: 50%;
+            flex: 55%;
             display: block;
         }
 
@@ -222,8 +228,7 @@
                 <img src="images/logo.png" width="55" height="50" alt="logo"></a>
             </div>
             <ul>
-                <li>Pair Device</li>
-                <li>Workout</li>
+                <li class="active">Workout</li>
                 <li>About Us</li>
                 <li>Programmes</li>
 
@@ -238,7 +243,7 @@
     <div class="status-container">
         <div class="left-col">
             <div class="left-col-img">
-                <img id="bicycle" src="images/cycling-still.png" width="240" height="200" alt="logo">
+                <img id="bicycle" src="images/cycling-still.png" width="280" height="240" alt="logo">
             </div>
             
             <div class="instruction-container">
@@ -253,7 +258,7 @@
 
         <div class="right-col">
             <div style="height: 80px; padding-bottom: 30px;">
-                <h2>Time Elapsed: <span class ="elapsed-time-text">00:00</span></h2>
+                <h2 style="text-align: center; color: white;">Time Elapsed: <span class ="elapsed-time-text">00:00</span></h2>
             
                 <div class="progressBar">
                     <div id="bar"></div>
@@ -261,7 +266,7 @@
             </div>
 
             <div style="height: 80px; padding-bottom: 50px;">
-                <h2>Tokens earn from current workout</h2>
+                <h2 style="text-align: center; color: white;">Tokens earn from current workout</h2>
                 
                 <div style="display: flex;">
                     <div style="float:left; padding-left: 50px; flex: 50%;">

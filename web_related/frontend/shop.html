@@ -129,7 +129,7 @@
         }
 
         .left-col {
-            flex: 40%;
+            flex: 50%;
         }
 
         .left-col-img {
@@ -138,7 +138,7 @@
         }
             
         .right-col {
-            flex: 60%;
+            flex: 50%;
         }
 
         .text-description {
@@ -163,7 +163,7 @@
                 <img src="images/logo.png" width="55" height="50" alt="logo"></a>
             </div>
             <ul>
-                <li class="active">Pair Device</li>
+                <li>Pair Device</li>
                 <li>About Us</li>
                 <li>Programmes</li>
 
@@ -176,37 +176,7 @@
 
     <!-- Main container -->
     <div class="main-container">
-        <div class="left-col">
-            <div class="left-col-img">
-                <img src="images/pairing.png" width="350" height="350" alt="pairing">
-            </div>
-
-        </div>
-
-        <div class="right-col">
-            <div class="text-description">
-                <h2>Place device near the <br>
-                    machine to pair
-                </h2>
-            </div>
-
-            <div class="button-container">
-                <button id="pair_button">Pair to machine</button>
-            </div>
-
-            <div class="load-container">
-                <img src="images/loading.gif" width="80" height="80">
-
-            </div>
-
-        </div>
-
-        <script>
-            const connect_btn = document.getElementById("pair_button");
-            connect_btn.addEventListener("click", pairMachine, false);
-            var user_token = document.getElementById("user_token");
-            var user_name = document.getElementById("user_name");
-        </script>
+        
     </div>
 
     <div id="wrapper">
