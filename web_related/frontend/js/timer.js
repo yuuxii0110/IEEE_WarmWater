@@ -11,21 +11,77 @@ var startTime;
 /** Stores the details of elapsed time when paused */
 var elapsedTimeWhenPaused;
 
+var reachedDailyWorkout = false;
+
+function setStartTime() {
+    if (elapsedTimeWhenPaused) {
+        startTime = new Date();
+        // Subtract the elapsed hours, minutes and seconds from the current date
+        // To get correct elapsed time to resume from it
+        startTime.setHours(startTime.getHours() - elapsedTimeWhenPaused.hours);
+        startTime.setMinutes(startTime.getMinutes() - elapsedTimeWhenPaused.minutes);
+        startTime.setSeconds(startTime.getSeconds() - elapsedTimeWhenPaused.seconds);
+    } else {
+        startTime = new Date();
+    }
+}
+
 function startTimer() {
     // Create a new data object
-    startTime = new Date();
+    setStartTime();
+
     var initTime = 0;
-    var timetotal = 100;
+    var timetotal = 200;
 
     elapsedTimeIntervalRef = setInterval(() =>{
         elapsedTimeText.innerText = timeAndDateHandling.getElapsedTime(startTime);
-        var progressBarWidth = initTime / timetotal;
-        prog_bar.style.width = progressBarWidth + "%";
 
-        initTime = initTime + 1;
+        if (progressBarWidth < 90) {
+            var progressBarWidth = initTime / timetotal * 100;
+            prog_bar.style.width = progressBarWidth + "%";
+            initTime = initTime + 1;
+        }
+        else{
+            reachedDailyWorkout = true;
+            prog_bar.style.backgroundColor = "#7CFC00";
+        }
 
     }, 1000);
 }
+
+function pauseTimer() {
+
+    // Clear interval
+    if (typeof elapsedTimeIntervalRef !== "undefined") {
+        clearInterval(elapsedTimeIntervalRef);
+        elapsedTimeIntervalRef = undefined;
+    }
+
+    // Store the elapsed time on pause
+    storeElapsedTimeOnPause();
+
+    // display the start button
+    instruction.innerHTML = "Cycle to <br> resume the session!";
+    instruction.style.display = "block";
+
+}
+
+
+function storeElapsedTimeOnPause() {
+        // Break down elapsed time from display test
+        const brokenDownElapsedTime = elapsedTimeText.innerText.split(":");
+
+        // Convert list to numbers
+        const brokenDownElapsedTimeAsNumbers = brokenDownElapsedTime.map(numberAsString => parseInt(numberAsString));
+    
+        // Store the hours minutes and seconds from that time
+        elapsedTimeWhenPaused = {
+            hours: brokenDownElapsedTimeAsNumbers.length === 3 ? brokenDownElapsedTimeAsNumbers[0] : 0,
+            minutes: brokenDownElapsedTimeAsNumbers.length === 3 ? brokenDownElapsedTimeAsNumbers[1] : brokenDownElapsedTimeAsNumbers[0],
+            seconds: brokenDownElapsedTimeAsNumbers.length === 3 ? brokenDownElapsedTimeAsNumbers[2] : brokenDownElapsedTimeAsNumbers[1]
+        }
+}
+
 
 function stopTimer() {
     if (typeof elapsedTimeIntervalRef !== "undefined") {
@@ -35,14 +91,7 @@ function stopTimer() {
 }   
 
 function stop_session() {
-    console.log("End session");
 
-    btn.style.display = "none";
-
-    instruction.style.display = "inline-block";
-    bicycleImg.src = "images/cycling-still.png";
-
-    stopTimer();
 
 }
 
@@ -100,7 +149,5 @@ var timeAndDateHandling = {
     }
 }
 
-// function progress(start_time, timetotal, $element) {
-//     var progressBarWidth = start_time * $element.width() / timetotal;
-//     $element.find('div').animate({ width: progressBarWidth }, 500).html(Math.floor(start_time/60) + ":"+ start_time%60);
-// }
+
+// startTimer();

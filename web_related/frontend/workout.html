@@ -24,9 +24,9 @@
             // Show stop button
             btn.value = 'End Session';
             btn.style.display = "block";
-
+            terminate_btn.style.display = "none";
             instruction.style.display = "none";
-            bicycleImg.src = "images/cycling.gif";
+            bicycleImg.src = "images/cycling-still.png";
 
             startTimer();
         }
@@ -39,6 +39,19 @@
                 }); 
             }); 
 
+            console.log("End session");
+
+            // $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, earned_credit: credit}, function(data){
+            //     // user_name.innerText = user_id;
+            //     location.reload();
+            // }); 
+
+            // btn.style.display = "none";
+            // terminate_btn.style.display = "block";
+            // instruction.style.display = "inline-block";
+            // bicycleImg.src = "images/cycling-still.png";
+
+            // stopTimer();
         }
 
         socket = io('http://'+ location.hostname + ':8080', {
@@ -65,9 +78,10 @@
         });
 
         socket.on(user_id + '_pause_workout', function(msg){
-            console.log("i am rest!");
-            //rest_template();
-
+            if(msg=="1"){
+                console.log("i am rest!", msg);
+                pauseTimer();
+            }
         });
 
         // socket.on(user_id + '_disconnected', function(msg){
@@ -81,7 +95,6 @@
             //to do: msg is the current credit earned
             current_credit = msg;
             earnedToken.innerText = current_credit;
-            user_available_token.innerText += current_credit;
         });
         
 
@@ -262,13 +275,14 @@
             </div>
 
             <div class="terminate-button-container">
-                <input type="button" value="Unpair/Stop Machine" onclick="terminate_machine()" id="terminate_button">
+                <input type="button" value="Unpair/Stop Machine" onclick="stop_session()" id="terminate_button">
             </div>
         </div>
     </div>
     
     <script>
         const btn = document.getElementById("stop_button");
+        const terminate_btn = document.getElementById("terminate_button");
         const instruction = document.getElementById("instruction");
         var elapsedTimeText = document.getElementsByClassName("elapsed-time-text")[0];
         var earnedToken = document.getElementById("token");

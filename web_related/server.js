@@ -85,7 +85,11 @@ client.on("message", function (topic, payload){
     }
 
     else if(topic == "workout_pause"){
-        let user_id = msg
+        let details = msg.split("/");
+        let user_id = details[0];
+        let energy = details[1];
+        let time = details[2];
+        console.log("1", user_id)
         io.emit(user_id + '_pause_workout', "1");
         console.log("send pause to webpage");
     }
