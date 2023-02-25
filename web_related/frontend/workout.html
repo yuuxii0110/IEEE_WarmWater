@@ -15,6 +15,8 @@
         // 2. When end session button is pressed, req for token earned
         var user_id = "warmwater";
         var device_id = "6969";
+        var credit = 0;
+        
         function start_action(){
             //To do
             console.log("Start session");
@@ -29,10 +31,12 @@
             startTimer();
         }
 
-        // function stop_session(){
-        //     $.post("http://" + location.hostname + ":8080/workout_stopped",{username: user_id, device: device_id}); 
+        function stop_session(){
+            $.post("http://" + location.hostname + ":8080/workout_stopped",{username: user_id, earned_credit: credit}, function(data){
+                
+            }); 
 
-        // }
+        }
 
         socket = io('http://'+ location.hostname + ':8080', {
             reconnectionDelay: 1000,
@@ -51,6 +55,7 @@
         });
 
         socket.on(user_id + '_disconnected', function(msg){
+            console.log("i am quit!")
             $.post("http://" + location.hostname + ":8080/workout_stopped",{username: user_id, device: device_id}, function(data){
                 location.reload();
             });
@@ -58,7 +63,7 @@
 
         socket.on(user_id + '_feedback', function(msg) {
             //to do: msg is the current credit earned
-            var current_credit = msg;
+            current_credit = msg;
             earnedToken.innerText = current_credit;
         });
         

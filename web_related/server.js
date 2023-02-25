@@ -109,9 +109,8 @@ client.on("message", function (topic, payload){
 });
 
 router.post("/workout_stopped",urlencodedParser, (req, res) => {
-    let user_id = req.body.username;
-    let device_id = req.body.device;
     req.session.session_started = null;
+    res.end("1");
 });
 
 router.post("/from_device_connection_request",urlencodedParser, (req, res) => {
@@ -124,11 +123,11 @@ router.post("/from_device_connection_request",urlencodedParser, (req, res) => {
 
 router.post("/from_device_disconnect_request",urlencodedParser, (req, res) => {
     let user_id = req.body.username;
-    let device_id = req.body.device;
+    let earned_credit = req.body.credit;
     const topic = "/pair_request/" + device_id;
     const message = "0/"+user_id;
     client.publish(topic, message);
-    io.emit(user_id + '_disconnected', credit); 
+    io.emit(user_id + '_disconnected', earned_credit); 
 });
 
 router.post('/log_in',urlencodedParser, (req, res) => {
