@@ -11,8 +11,6 @@ var startTime;
 /** Stores the details of elapsed time when paused */
 var elapsedTimeWhenPaused;
 
-var prog_bar = document.getElementById("progressBar");
-
 function startTimer() {
     // Create a new data object
     startTime = new Date();
@@ -23,8 +21,8 @@ function startTimer() {
         elapsedTimeText.innerText = timeAndDateHandling.getElapsedTime(startTime);
         // console.log("Hello");
         // progress(initTime, timetotal, prog_bar);
-        var progressBarWidth = initTime * $("progressBar").width() / timetotal;
-        prog_bar.width = progressBarWidth
+        var progressBarWidth = initTime * prog_bar.width / timetotal;
+        prog_bar.width = progressBarWidth;
         initTime ++;
 
     }, 1000);
@@ -41,7 +39,7 @@ function stop_session() {
     console.log("End session");
 
     btn.style.display = "none";
-    
+
     instruction.style.display = "inline-block";
     bicycleImg.src = "images/cycling-still.png";
 
@@ -103,9 +101,9 @@ var timeAndDateHandling = {
     }
 }
 
-function progress(start_time, timetotal, $element) {
-    var progressBarWidth = start_time * $element.width() / timetotal;
-    $element.find('div').animate({ width: progressBarWidth }, 500).html(Math.floor(start_time/60) + ":"+ start_time%60);
-}
+// function progress(start_time, timetotal, $element) {
+//     var progressBarWidth = start_time * $element.width() / timetotal;
+//     $element.find('div').animate({ width: progressBarWidth }, 500).html(Math.floor(start_time/60) + ":"+ start_time%60);
+// }
 
 
