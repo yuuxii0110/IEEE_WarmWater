@@ -121,12 +121,13 @@ void loop() {
         sprintf(myEnergy, "%d", Energy); // convert int to const char* std::string
         std::string msg=userid + "/" + deviceid + "/"+ myTime +"/" + myEnergy;
         client.publish("disconnect_device",msg.c_str());
+        Energy=0;
         //Serial.println(msg);
       }
       prev_working_out=working_out;
     }
     if((now-refresh)>5000&&(working_out)){// send data every 5sec
-        workoutTime=millis()-startT;
+        workoutTime=millis()-workoutTime;
         char myTime[8]; // buffer for converted std::string
         sprintf(myTime, "%d", workoutTime); // convert int to const char* std::string
         char myEnergy[8]; // buffer for converted std::string
@@ -152,6 +153,8 @@ void callback(char* topic, byte* payload, unsigned int len) {
       working_out=0;
       prev_working_out=0;
       moving=0;
+      Energy=0;
+      workoutTime=0;
       }
     if (*payload=='1'){
       konek=1;
