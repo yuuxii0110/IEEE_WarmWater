@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        
         .login-container {
             display: flex;
             flex-wrap: wrap;
@@ -75,15 +74,13 @@
                 <h1>Login</h1>
             </div>
             <div class="form-container">
-                <form action="login" method="post">
-                    <label for="user">*Username</label>
-                    <input type="user" name="user" id="user" required><br>
+                <label for="user">*Username</label>
+                <input type="user" name="user" id="user" required><br>
 
-                    <label for="password">*Password</label>
-                    <input type="password" name="password" id="password" required><br>
+                <label for="password">*Password</label>
+                <input type="password" name="password" id="password" required><br>
 
-                    <input type="submit" value="Submit" name='submit' class="button1">
-                </form>
+                <input type="submit" value="Submit" name='submit' class="button1" onclick="submitLogin()">
             </div>
         </div>
 
@@ -153,4 +150,24 @@
         </div>
     </div>
 </body>
+
+<script src="lib/socket.io/client-dist/socket.io.min.js"></script>
+<script src="lib/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+    function submitLogin(){
+        let pw = document.getElementById("password").value;
+        let user = document.getElementById("user").value;
+        $.post("http://" + location.hostname + ":8080/log_in",{username: user, password: pw}, function(data){
+            if(data == "1"){
+                alert("login success")
+                let new_url = "http://" + location.hostname + ":8080/WarmWater"
+                location.replace(new_url);
+            }
+            else{
+                alert("wrong password or userid")
+            }
+        }); 
+    }
+</script>
 </html>

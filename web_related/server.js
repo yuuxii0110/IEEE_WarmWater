@@ -13,7 +13,7 @@ var client_credit_map = new Map();
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.use("/", router);
-app.use("/WarmWater", express.static(__dirname + '/public'));
+app.use("/WarmWater", express.static(__dirname + '/frontend'));
 
 router.use(session({
   secret: '69276e87-ad4f-45a5-9665-0a7d72905624',
@@ -25,7 +25,8 @@ router.use(session({
 function subscribe_mqtt_topics(){
   client.subscribe("connection_established");
   client.subscribe("disconnect_device");
-  client.subscribe("test_topic");
+  client.subscribe("from_device_connection_request");
+  client.subscribe("from_device_disconnect_request");
   console.log("mqtt subscribed")
 }
 
@@ -33,24 +34,26 @@ function calculate_credit(time, energy, weightage=1){
     return Math.round(weightage*(time*0.25 + energy*0.05));
 }
 
-const client = mqtt.connect('mqtt://127.0.0.1:1883');
-subscribe_mqtt_topics();
-link = '/WarmWater';
-app.get(link,function(req,res){     
-    if(req.session.logged_in){
-        res.sendFile(__dirname + '/main.html');
-    } 
-    else{
-        res.sendFile(__dirname + '/login.html');
-    }
-});
-
 function register_if_not_done(user_id){
     //initialize client credit if never logged in
     if(!client_credit_map.get(user_id)){
         client_credit_map.set(user_id, 0);
     }
 }
+
+const client = mqtt.connect('mqtt://127.0.0.1:1883');
+subscribe_mqtt_topics();
+link = '/WarmWater';
+app.get(link,function(req,res){     
+    if(req.session.logged_in){
+        res.sendFile(__dirname + '/frontend/index.html');
+    } 
+    else{
+        res.sendFile(__dirname + '/frontend/login.html');
+    }
+});
+
+
 
 client.on("message", function (topic, payload){
     if (topic == "connection_established") {
@@ -73,17 +76,31 @@ client.on("message", function (topic, payload){
         io.emit(user_id + '_disconnected', credit);
         client_device_map.delete(user_id);
     }
+});
 
-    else if(topic == "test_topic"){
-        console.log(payload.toString());
-    }
+router.post("/from_device_connection_request",urlencodedParser, (req, res) => {
+    let user_id = req.body.username;
+    let device_id = req.body.device;
+    const topic = device_id + '/pair_request';
+    const message = "1/"+user_id;
+    client.publish(topic, message);    
+});
+
+router.post("/from_device_disconnect_request",urlencodedParser, (req, res) => {
+    let user_id = req.body.username;
+    let device_id = req.body.device;
+    const topic = device_id + '/pair_request';
+    const message = "0/"+user_id;
+    client.publish(topic, message);
+    io.emit(user_id + '_disconnected', credit); 
 });
 
 router.post('/log_in',urlencodedParser, (req, res) => {
     let user_id = req.body.username;
-    let pw = req.body.pw;
-    register_if_not_done(user_id);
+    let pw = req.body.password;
+    console.log(user_id, pw)
     if(user_id == "warmwater" && pw == "Warm1234"){
+        register_if_not_done(user_id);
         req.session.logged_in = true;
         res.end("1");
     }
