@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+            margin-bottom: 230px;
+            width: 65%;
+            /* border: 1px solid black; */
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
+        }
+
+        .form-container {
+            width:100%;
+            display:flex;
+            padding-top: 10px;
+        }
+
+        .form-container label{
+            padding-left: 40px;
+            padding-bottom: 40px;
+        }
+
+        .form-container input{
+            margin-bottom: 20px;
+        }
+
+        .textbox {
+            padding: 25px 0px;
+            text-align: center;
+            color: black;
+        }
+        
+        .textbox p {
+            font-style: italic;
+            text-transform: capitalize;
+        }
+
+        .button1{
+            text-align: center;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Navigation bar -->
+        <div class="nav-container">
+            <nav>
+                <div id="left-nav">
+                    <img src="images/logo.png" width="55" height="50" alt="logo">
+                </div>
+                <ul>
+                    <li>Pair Device</li>
+                    <li>Workout</li>
+                    <li>About Us</li>
+                    <li>Programmes</li>
+    
+                    <li style="float: right;"><a class="active" href="login.html">Login</a>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main container -->
+        <div class="login-container">
+            <div class="textbox">
+                <h1>Login</h1>
+            </div>
+            <div class="form-container">
+                <label for="user">*Username</label>
+                <input type="user" name="user" id="user" required><br>
+
+                <label for="password">*Password</label>
+                <input type="password" name="password" id="password" required><br>
+
+                <input type="submit" value="Submit" name='submit' class="button1" onclick="submitLogin()">
+            </div>
+        </div>
+
+
+        <!-- Footer Area -->
+        <div class="footer-container">
+            <div class="three-columns footer-padding">
+                <div class="row">
+                    <div class="col">
+                        <div class="logo-content">
+                            <img src="images/logo.png"  width=90px height=75px alt="">
+                        </div>
+                        <div class="logo-content">
+                            <p>Caring is sharing</p>
+
+                            <!-- <p>An intiative powered by iNTUition@IEEENTU</p> -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="col-content">
+                            <h2>Contact Us</h2>
+                        </div>
+                        <div class="col-content">
+                            <table>
+                                <tr>
+                                    <td><img src="images/location.png" width="22px" height="22px"></td>
+                                    <td>
+                                        50 Nanyang Ave, Singapore 639798
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="images/contact.png" width="20px" height="20px"></td>
+                                    <td>(+65) 89002643</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="images/email.png" width="22px" height="22px"></td>
+                                    <td>
+                                        order@lapizzaria.com
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="col-content">
+                            <h2>Opening Hours</h2>
+                        </div>
+                        <div class="col-content">
+                            <table>
+                                <tr>
+                                    <td>Monday.............Closed</td>
+                                </tr>
+                                <tr>
+                                    <td>Tue-Fri.........10am - 12pm</td>
+                                </tr>
+                                <tr>
+                                    <td>Sat-Sun..........8am - 11pm</td>
+                                </tr>
+                                <tr>
+                                    <td>Holidays........10am - 12pm</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="lib/socket.io/client-dist/socket.io.min.js"></script>
+<script src="lib/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+    function submitLogin(){
+        let pw = document.getElementById("password").value;
+        let user = document.getElementById("user").value;
+        $.post("http://" + location.hostname + ":8080/log_in",{username: user, password: pw}, function(data){
+            console.log("data")
+            if(data == "1"){
+                let new_url = "http://" + location.hostname + ":8080/WarmWater"
+                location.replace(new_url);
+            }
+            else{
+                alert("you bad bad");
+            }
+        }); 
+    }
+</script>
+</html>

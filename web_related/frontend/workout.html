@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Warm Water</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+
+        // To Do
+        // 1. When start session button is pressed, send a req to server
+        
+        // 2. When end session button is pressed, req for token earned
+        function start_stop_session() {
+            const btn = document.getElementById("start_button");
+
+            if (btn.value == 'Start') {
+                // Start session
+                console.log("Start session");
+                btn.value = 'End';
+            }
+            else {
+                console.log("End session");
+                btn.value = "Start";
+            }
+
+        }
+
+    </script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .status-container {
+            display: flex;
+            background-color: #66CCCC;
+        }
+
+        .textbox {
+            padding-top: 150px;
+            text-align: center;
+            color: #FFFFFF;
+        }
+        
+        .textbox p {
+            font-style: italic;
+            text-transform: capitalize;
+        }
+
+        .button-padding {
+            margin: 40px; 
+        }
+
+        .button:hover {
+            color: #131230;
+            background: transparent;
+            border: 1px solid #ffb606
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 100px;
+        }
+
+        .button-container input {
+            color: #131230;
+            background: #ffb606;
+            font-family: "Roboto", sans-serif;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid transparent;
+            display: inline-block;
+            padding: 12px 30px;
+            text-decoration: none;
+        }
+
+        .left-col {
+            flex: 50%
+        }
+
+        .left-col-img {
+            padding-top: 100px;
+        }
+            
+        .right-col {
+            flex: 50%;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <div class="nav-container">
+        <nav>
+            <div id="left-nav">
+                <img src="images/logo.png" width="55" height="50" alt="logo"></a>
+            </div>
+            <ul>
+                <li>Pair Device</li>
+                <li>Workout</li>
+                <li>About Us</li>
+                <li>Programmes</li>
+
+                <li style="float: right;">Login
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main container -->
+    <div class="status-container">
+        <div class="left-col">
+            <div class="left-col-img">
+                <img src="images/cycling.gif" width="240" height="200" alt="logo">
+            </div>
+
+            <div class="button-container">
+                <input type="button" value="Start" onclick="start_stop_session()" id="start_button">
+            </div>
+
+        </div>
+
+        <div class="right-col">
+            <h2>Time Elapsed: <span class="time-elapsed">00:00</span></h2>
+            <h2>Credits accum: <span class="time-elapsed">0</span> <img src="images/coin.png" width="15" height="15"></h2>
+        </div>
+    </div>
+
+    <div id="wrapper">
+        <!-- Footer Area -->
+        <div class="footer-container">
+            <div class="three-columns footer-padding">
+                <div class="row">
+                    <div class="col">
+                        <div class="logo-content">
+                            <img src="images/logo.png"  width=90px height=75px alt="">
+                        </div>
+                        <div class="logo-content">
+                            <p>Caring is sharing</p>
+
+                            <!-- <p>An intiative powered by iNTUition@IEEENTU</p> -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="col-content">
+                            <h2>Contact Us</h2>
+                        </div>
+                        <div class="col-content">
+                            <table>
+                                <tr>
+                                    <td><img src="images/location.png" width="22px" height="22px"></td>
+                                    <td>
+                                        50 Nanyang Ave, Singapore 639798
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="images/contact.png" width="20px" height="20px"></td>
+                                    <td>(+65) 89002643</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="images/email.png" width="22px" height="22px"></td>
+                                    <td>
+                                        order@lapizzaria.com
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="col-content">
+                            <h2>Opening Hours</h2>
+                        </div>
+                        <div class="col-content">
+                            <table>
+                                <tr>
+                                    <td>Monday.............Closed</td>
+                                </tr>
+                                <tr>
+                                    <td>Tue-Fri.........10am - 12pm</td>
+                                </tr>
+                                <tr>
+                                    <td>Sat-Sun..........8am - 11pm</td>
+                                </tr>
+                                <tr>
+                                    <td>Holidays........10am - 12pm</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
