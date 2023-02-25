@@ -9,8 +9,23 @@
 
         // To Do
         // 1. When start session button is pressed, send a req to server
-        // 2. When end session button is pressed, req for token earned
         
+        // 2. When end session button is pressed, req for token earned
+        function start_stop_session() {
+            const btn = document.getElementById("start_button");
+
+            if (btn.value == 'Start') {
+                // Start session
+                console.log("Start session");
+                btn.value = 'End';
+            }
+            else {
+                console.log("End session");
+                btn.value = "Start";
+            }
+
+        }
+
     </script>
     <style>
         body, html {
@@ -34,21 +49,8 @@
             text-transform: capitalize;
         }
 
-        .button {
-            color: #131230;
-            background: #ffb606;
-            font-family: "Roboto", sans-serif;
-            text-transform: uppercase;
-            font-size: 14px;
-            font-weight: 500;
-            border: 1px solid transparent;
-            display: inline-block;
-            padding: 12px 30px;
-            text-decoration: none;
-        }
-
         .button-padding {
-            margin: 40px;
+            margin: 40px; 
         }
 
         .button:hover {
@@ -62,7 +64,20 @@
             justify-content: center;
             padding-bottom: 100px;
         }
-        
+
+        .button-container input {
+            color: #131230;
+            background: #ffb606;
+            font-family: "Roboto", sans-serif;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid transparent;
+            display: inline-block;
+            padding: 12px 30px;
+            text-decoration: none;
+        }
+
         .left-col {
             flex: 50%
         }
@@ -85,8 +100,12 @@
                 <img src="images/logo.png" width="55" height="50" alt="logo"></a>
             </div>
             <ul>
-                <li>Pair Device</a></li>
-                <li style="float: right;">Login</a>
+                <li>Pair Device</li>
+                <li>Workout</li>
+                <li>About Us</li>
+                <li>Programmes</li>
+
+                <li style="float: right;">Login
             </ul>
         </nav>
     </div>
@@ -98,19 +117,16 @@
                 <img src="images/cycling.gif" width="240" height="200" alt="logo">
             </div>
 
-            <!-- End session button -->
             <div class="button-container">
-                <a class="button button-padding">End Session</a>
+                <input type="button" value="Start" onclick="start_stop_session()" id="start_button">
             </div>
+
         </div>
 
         <div class="right-col">
             <h2>Time Elapsed: <span class="time-elapsed">00:00</span></h2>
-            <h2>Total calories burnt: <span class="calories">0</span> cal</h2>
             <h2>Credits accum: <span class="time-elapsed">0</span> <img src="images/coin.png" width="15" height="15"></h2>
-
         </div>
-        
     </div>
 
     <div id="wrapper">
@@ -120,7 +136,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="logo-content">
-                            <img src="images/logo.png"  width=90px height=75px alt=""></a>
+                            <img src="images/logo.png"  width=90px height=75px alt="">
                         </div>
                         <div class="logo-content">
                             <p>Caring is sharing</p>
