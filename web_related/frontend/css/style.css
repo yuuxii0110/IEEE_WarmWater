@@ -52,10 +52,6 @@ nav ul {
 
 nav li {
     float: left;
-}
-
-/* Display menu horizontally */
-nav li a {
     display: block;
     color: #000000;
     text-align: center;
@@ -64,13 +60,15 @@ nav li a {
     transition: 500ms;
 }
 
+/* Display menu horizontally */
+
 .active {
     /* when page is selected */
     background-color: #527c88;
 }
 
 /* Change the link color to grey on hover */
-nav li a:hover {
+nav li:hover {
     background-color: #B8E0E3;
 }
 
