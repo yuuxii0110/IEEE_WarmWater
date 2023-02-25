@@ -19,8 +19,9 @@ function startTimer() {
 
     elapsedTimeIntervalRef = setInterval(() =>{
         elapsedTimeText.innerText = timeAndDateHandling.getElapsedTime(startTime);
-        var progressBarWidth = initTime * prog_bar.width / timetotal;
-        prog_bar.width = progressBarWidth;
+        var progressBarWidth = initTime / timetotal;
+        prog_bar.width = progressBarWidth + "%";
+
         initTime ++;
 
     }, 1000);
@@ -103,5 +104,3 @@ var timeAndDateHandling = {
 //     var progressBarWidth = start_time * $element.width() / timetotal;
 //     $element.find('div').animate({ width: progressBarWidth }, 500).html(Math.floor(start_time/60) + ":"+ start_time%60);
 // }
-
-

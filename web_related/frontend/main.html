@@ -12,11 +12,15 @@
         var connect_success = false;
         var user_id = "warmwater";
         var device_id = "6969";
+        var user_available_token = 0;
         
         $.post("http://" + location.hostname + ":8080/workout_stopped",{username: user_id, device: device_id}); 
         $.post("http://" + location.hostname + ":8080/request_available_credit",{username: user_id}, function(data){
             //data is the current credit
-        }); 
+            user_available_token = data;
+            user_name.innerText = user_id;
+            user_token.innerText = user_available_token;
+        });     
 
         //websocket connection
         socket = io('http://'+ location.hostname + ':8080', {
@@ -164,7 +168,9 @@
                 <li>About Us</li>
                 <li>Programmes</li>
 
-                <li style="float: right;">Login</li>
+                <li style="float: right;"><span id="user_name">Login</span></li>
+                <li style="float: right;"><span id="user_token">0</span></li>
+                <li style="float: right;"><img src="images/coin.png" width="25" height="25"></li>
             </ul>
         </nav>
     </div>
@@ -199,6 +205,8 @@
         <script>
             const connect_btn = document.getElementById("pair_button");
             connect_btn.addEventListener("click", pairMachine, false);
+            var user_token = document.getElementById("user_token");
+            var user_name = document.getElementById("user_name");
         </script>
     </div>
 

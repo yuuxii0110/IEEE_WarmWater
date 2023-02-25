@@ -33,7 +33,7 @@
 
         function stop_session(){
             $.post("http://" + location.hostname + ":8080/workout_stopped",{username: user_id, earned_credit: credit}, function(data){
-                
+                user_name.innerText = user_id;
             }); 
 
         }
@@ -47,6 +47,13 @@
             upgrade: false,
             rejectUnauthorized: false
         });
+
+        $.post("http://" + location.hostname + ":8080/request_available_credit",{username: user_id}, function(data){
+            //data is the current credit
+            var current_token = data;
+            user_available_token.innerText = current_token;
+
+        }); 
 
         socket.on(user_id + '_started_workout', function(msg) {
             if(msg=="1"){
@@ -65,6 +72,7 @@
             //to do: msg is the current credit earned
             current_credit = msg;
             earnedToken.innerText = current_credit;
+            user_available_token.innerText += current_credit;
         });
         
 
@@ -153,7 +161,7 @@
             text-align: right;
             padding: 0 10px;
             line-height: 22px; /* same as #progressBar height if we want text middle aligned */
-            width: 10%;
+            width: 0%;
             background-color: #CBEA00;
             box-sizing: border-box;
         }
@@ -173,7 +181,9 @@
                 <li>About Us</li>
                 <li>Programmes</li>
 
-                <li style="float: right;">Login</li>
+                <li style="float: right;"><span id="user_name">Login</span></li>
+                <li style="float: right;"><span id="user_token">0</span></li>
+                <li style="float: right;"><img src="images/coin.png" width="25" height="25"></li>
             </ul>
         </nav>
     </div>
@@ -211,8 +221,13 @@
         const instruction = document.getElementById("instruction");
         var elapsedTimeText = document.getElementsByClassName("elapsed-time-text")[0];
         var earnedToken = document.getElementById("token");
+        var user_available_token = document.getElementById("user_token");
         var bicycleImg = document.getElementById("bicycle");
         var prog_bar = document.getElementById("bar");
+        var user_name = document.getElementById("user_name");
+
+        var bar_width = prog_bar.style.width + "50%";
+        console.log(bar_width);
 
     </script>
 
