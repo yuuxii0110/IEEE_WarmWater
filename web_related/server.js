@@ -15,6 +15,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.use("/", router);
 app.use("/WarmWater", express.static(__dirname + '/frontend'));
+app.use("/VouchersAvailable", express.static(__dirname + '/frontend'));
 
 router.use(session({
   secret: '69276e87-ad4f-45a5-9665-0a7d72905624',
@@ -39,7 +40,6 @@ function register_if_not_done(user_id){
     //initialize client credit if never logged in
     if(!client_credit_map.get(user_id)){
         client_credit_map.set(user_id, 0);
-        console.log(client_credit_map)
     }
 }
 
@@ -68,6 +68,16 @@ app.get(link,function(req,res){
     else if(!req.session.logged_in){
         res.sendFile(__dirname + '/frontend/home.html');
     } 
+    else{
+        res.sendFile(__dirname + '/frontend/login.html');
+    }
+});
+
+link = '/VouchersAvailable';
+app.get(link,function(req,res){    
+    if(req.session.logged_in){
+        res.sendFile(__dirname + '/frontend/shop.html');
+    }
     else{
         res.sendFile(__dirname + '/frontend/login.html');
     }

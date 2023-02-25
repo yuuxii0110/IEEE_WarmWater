@@ -22,6 +22,11 @@
             user_token.innerText = user_available_token;
         });     
 
+        function go_shop(){
+            let new_url = "http://" + location.hostname + ":8080/VouchersAvailable"
+            location.replace(new_url);
+        }
+
         //websocket connection
         socket = io('http://'+ location.hostname + ':8080', {
             reconnectionDelay: 1000,
@@ -169,7 +174,7 @@
 
                 <li style="float: right;"><span id="user_name">Login</span></li>
                 <li style="float: right;"><span id="user_token">0</span></li>
-                <li style="float: right;"><img src="images/coin.png" width="25" height="25"></li>
+                <li style="float: right;"><img src="images/coin.png" width="25" height="25" onclick="go_shop()"></li>
             </ul>
         </nav>
     </div>

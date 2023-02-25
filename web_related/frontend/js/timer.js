@@ -50,7 +50,7 @@ function startTimer() {
     }, 1000);
 }
 
-function pause_session() {
+function pauseTimer() {
 
     console.log("Session paused");
 
