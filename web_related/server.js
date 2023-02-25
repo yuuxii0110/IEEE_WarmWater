@@ -24,7 +24,7 @@ router.use(session({
 }));
 
 function subscribe_mqtt_topics(){
-  client.subscribe("connection_established");
+  client.subscribe("workout_started");
   client.subscribe("disconnect_device");
   client.subscribe("energy_and_time");
   console.log("mqtt subscribed")
@@ -75,11 +75,12 @@ app.get(link,function(req,res){
 
 client.on("message", function (topic, payload){
     msg = payload.toString();
-    console.log(msg);
+    console.log(topic, msg);
     if (topic == "workout_started") {
         let details = msg.split("/");
         let user_id = details[0];
         io.emit(user_id + '_started_workout', "1");
+        console.log("send start to webpage");
     }
 
     else if(topic == "disconnect_device"){
@@ -91,8 +92,8 @@ client.on("message", function (topic, payload){
         let earned_credit = calculate_credit(time,energy);
         let previous_credit = parseInt(client_credit_map.get(user_id));
         client_credit_map.set(user_id,earned_credit+previous_credit);
-
         io.emit(user_id + '_disconnected', earned_credit);
+        console.log("send disconnect to webpage");
         client_device_map.delete(user_id);
     }
 
@@ -103,6 +104,7 @@ client.on("message", function (topic, payload){
         let time = details[2];
         let earned_credit = calculate_credit(time,energy);
         io.emit(user_id + '_feedback', earned_credit);
+        console.log("send feedback to webpage");
     }
 });
 
