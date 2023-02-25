@@ -13,15 +13,15 @@
             justify-content: center;
             margin-top: 50px;
             margin-bottom: 230px;
-            width: 65%;
+            width: 80%;
             /* border: 1px solid black; */
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
         }
 
         .form-container {
-            width:100%;
-            display:flex;
-            padding-top: 10px;
+            display:block;
+            padding: 60px 130px;
+            margin: auto;
         }
 
         .form-container label{
@@ -48,6 +48,28 @@
             text-align: center;
         }
 
+        .left-col {
+            flex: 45%;
+        }
+
+        .right-col {
+            flex: 55%;
+        }
+
+        .right-col .button1 {
+            color: #131230;
+            background: #ffb606;
+            font-family: "Roboto", sans-serif;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid transparent;
+            display: block;
+            padding: 12px 40px;
+            margin-top: 40px;
+            text-decoration: none;
+            border-radius: 12px;
+        }
 
     </style>
 </head>
@@ -64,28 +86,32 @@
                     <li>About Us</li>
                     <li>Programmes</li>
     
-                    <li style="float: right;"><a class="active" href="login.html">Login</a>
+                    <li style="float: right;" class="active"><a href="login.html">Login</a>
+                    <li style="float: right;"><img src="images/coin.png" width="25" height="25"></li>
                 </ul>
             </nav>
         </div>
 
         <!-- Main container -->
         <div class="login-container">
-            <div class="textbox">
-                <h1>Login</h1>
+            <div class="left-col">
+                <img src="images/login.jpg"></img>
             </div>
-            <div class="form-container">
-                <div>
-                    <label for="user">*Username</label>
-                    <input type="user" name="user" id="user" required><br>
+            <div class="right-col"> 
+                <h1 style="text-align: center;">Login Page</h1>
+                <div class="form-container">
+                    <div>
+                        <label for="user">*Username</label>
+                        <input type="user" name="user" id="user" required><br>
+                    </div>
+    
+                    <div>
+                        <label for="password">*Password</label>
+                        <input type="password" name="password" id="password" required><br>
+                    </div>
+    
+                    <input type="submit" value="Submit" name='submit' class="button1" onclick="submitLogin()">
                 </div>
-
-                <div>
-                    <label for="password">*Password</label>
-                    <input type="password" name="password" id="password" required><br>
-                </div>
-
-                <input type="submit" value="Submit" name='submit' class="button1" onclick="submitLogin()">
             </div>
         </div>
 
