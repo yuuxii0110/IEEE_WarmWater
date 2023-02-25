@@ -1,7 +1,6 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <iostream>
-#include <ESP32PWM.h>
 
 // Replace with your WiFi credentials
 const char* ssid = "ASUS_38_2G";
@@ -19,6 +18,7 @@ bool working_out=0;
 bool prev_working_out=0;
 bool moving=0;
 bool konek=0;
+bool buzzer;
 WiFiClient espClient;
 PubSubClient client(espClient);
 
@@ -31,10 +31,9 @@ int LED = 26;
 int min_bright=100;
 unsigned long prev=0;
 
-unsigned long startT,workoutTime,workoutTimeTotal;
+unsigned long startT,workoutTime,workoutTimeTotal,time_stamp;
 unsigned long Energy=0;
 unsigned long refresh=0;
-
 
 void setup() {
   pinMode(motorPin,INPUT);
@@ -77,7 +76,10 @@ void setup() {
 void loop() {
   client.loop();
   // Send a message to the MQTT broker
-//  delay(200); 
+  if ((buzzer==1)&&((millis()-time_stamp)>1000)){
+    ledcWrite(channel, 0); // stop generating the square wave
+    buzzer=0;
+    }
   if (konek){
     int value = analogRead(motorPin);
 //    Serial.println(value);
@@ -147,12 +149,14 @@ void loop() {
 void callback(char* topic, byte* payload, unsigned int len) {
   Serial.print("Message arrived in topic: ");
   Serial.println(topic);
-  Serial.print("Message: ");
   std::string str(topic);
   std::string str2="/pair_request/"+deviceid;
   if (str==str2){
     int var = *payload;
     if(var != konek){
+      time_stamp=millis();
+      ledcWriteTone(channel, frequency);// generate a square wave of the specified frequency on the buzzer pin
+      buzzer=1;
       if (*payload=='0'){
       konek=0;
       working_out=0;
@@ -168,12 +172,9 @@ void callback(char* topic, byte* payload, unsigned int len) {
       moving=0;
       workoutTimeTotal=0;
       Serial.println("Connected");
-//      ledcWriteTone(channel, frequency); // generate a square wave of the specified frequency on the buzzer pin
-//      delay(500); // wait for 1 second
-//      ledcWrite(channel, 0); // stop generating the square wave
       }
     std::string useridtemp="";
-    Serial.println(len);
+//    Serial.println(len);
     for (int i = 2; i < len; i++) {
       useridtemp+=(char)payload[i];
       }
@@ -182,24 +183,3 @@ void callback(char* topic, byte* payload, unsigned int len) {
     
     }
 }
-
-//void intToBytes(int value, byte* bytes) {
-//  bytes[0] = (value >> 8) & 0xFF;
-//  bytes[1] = value & 0xFF;
-//}
-
-
-//start session BT connect && value>0)
-//publish user id/device id
-//buzzer sound when connected
-//session online led on
-
-//when value=0 more than 5 sec end session
-//publish user id/device id,time taken, energy
-//unsigned long sum=0;
-
-
-//energy/time every 5 sec
-
-
-//moving 0 to 1
