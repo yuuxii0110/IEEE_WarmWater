@@ -5,26 +5,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/style.css">
+    <script src="lib/socket.io/client-dist/socket.io.min.js"></script>
+    <script src="lib/jquery/dist/jquery.min.js"></script>
+    <script src="js/timer.js"></script>
     <script>
-
         // To Do
         // 1. When start session button is pressed, send a req to server
         
         // 2. When end session button is pressed, req for token earned
-        function start_stop_session() {
-            const btn = document.getElementById("start_button");
+        var user_id = "warmwater";
+        var device_id = "6969";
+        var credit = 0;
+        
+        function start_action(){
+            //To do
+            console.log("Start session");
 
-            if (btn.value == 'Start') {
-                // Start session
-                console.log("Start session");
-                btn.value = 'End';
-            }
-            else {
-                console.log("End session");
-                btn.value = "Start";
-            }
+            // Show stop button
+            btn.value = 'End Session';
+            btn.style.display = "block";
+            terminate_btn.style.display = "none";
+            instruction.style.display = "none";
 
+            startTimer();
+            bicycleImg.src = "images/cycling.gif";
+            
         }
+
+        function stop_session(){
+            $.post("http://" + location.hostname + ":8080/from_device_disconnect_request",{username: user_id, device_id: device_id}, function(data){
+                $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, earned_credit: earnedToken.innerText.toString()}, function(data){
+                    // user_name.innerText = user_id;
+                    location.reload();
+                }); 
+            }); 
+
+            console.log("End session");
+
+            // $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, earned_credit: credit}, function(data){
+            //     // user_name.innerText = user_id;
+            //     location.reload();
+            // }); 
+
+            // btn.style.display = "none";
+            // terminate_btn.style.display = "block";
+            // instruction.style.display = "inline-block";
+            // bicycleImg.src = "images/cycling-still.png";
+
+            // stopTimer();
+        }
+
+        socket = io('http://'+ location.hostname + ':8080', {
+            reconnectionDelay: 1000,
+            reconnection: true,
+            reconnectionAttemps: 10,
+            transports: ['websocket'],
+            agent: false,
+            upgrade: false,
+            rejectUnauthorized: false
+        });
+
+        $.post("http://" + location.hostname + ":8080/request_available_credit",{username: user_id}, function(data){
+            //data is the current credit
+            var current_token = data;
+            user_available_token.innerText = current_token;
+
+        }); 
+
+        socket.on(user_id + '_started_workout', function(msg) {
+            if(msg=="1"){
+                start_action();
+            }
+        });
+
+        socket.on(user_id + '_pause_workout', function(msg){
+            if(msg=="1"){
+                console.log("i am rest!", msg);
+                pauseTimer();
+                bicycleImg.src = "images/cycling-still.png";
+            }
+        });
+
+        // socket.on(user_id + '_disconnected', function(msg){
+        //     console.log("i am quit!")
+        //     // $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, device: device_id}, function(data){
+        //     //     location.reload();
+        //     // });
+        // });
+
+        socket.on(user_id + '_feedback', function(msg) {
+            //to do: msg is the current credit earned
+            current_credit = msg;
+            earnedToken.innerText = current_credit;
+        });
+        
 
     </script>
     <style>
@@ -73,13 +147,42 @@
             font-size: 14px;
             font-weight: 500;
             border: 1px solid transparent;
+            display: none;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 12px;
+        }
+
+        .terminate-button-container  {
+            display: flex;
+            justify-content: right;
+            padding: 50px 0;
+        }
+
+        .terminate-button-container input {
+            color: #131230;
+            background: red;
+            font-family: "Roboto", sans-serif;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid transparent;
             display: inline-block;
             padding: 12px 30px;
             text-decoration: none;
+            border-radius: 12px;
+        }
+
+        .instruction-container {
+            text-align: center;
+        }
+
+        .instruction-container #instruction {
+            font-size: 26px;
         }
 
         .left-col {
-            flex: 50%
+            flex: 45%;
         }
 
         .left-col-img {
@@ -87,7 +190,34 @@
         }
             
         .right-col {
-            flex: 50%;
+            flex: 55%;
+            display: block;
+        }
+
+        .col-content h3{
+            font-size: 25px;    
+        }
+
+        .progressBar {
+            width: 90%;
+            margin: 25px auto;
+            height: 22px;
+            background-color: #0A5F44;
+        }
+
+        .progressBar #bar {
+            height: 100%;
+            float: left;
+            text-align: right;
+            padding: 0 10px;
+            line-height: 22px; /* same as #progressBar height if we want text middle aligned */
+            width: 0%;
+            background-color: #CBEA00;
+            box-sizing: border-box;
+        }
+
+        #token {
+            font-size: 30px;
         }
 
     </style>
@@ -100,12 +230,13 @@
                 <img src="images/logo.png" width="55" height="50" alt="logo"></a>
             </div>
             <ul>
-                <li>Pair Device</li>
-                <li>Workout</li>
+                <li class="active">Workout</li>
                 <li>About Us</li>
                 <li>Programmes</li>
 
-                <li style="float: right;">Login
+                <li style="float: right;"><span id="user_name">Login</span></li>
+                <li style="float: right;"><span id="user_token">0</span></li>
+                <li style="float: right;"><img src="images/coin.png" width="25" height="25"></li>
             </ul>
         </nav>
     </div>
@@ -114,59 +245,80 @@
     <div class="status-container">
         <div class="left-col">
             <div class="left-col-img">
-                <img src="images/cycling.gif" width="240" height="200" alt="logo">
+                <img id="bicycle" src="images/cycling-still.png" width="280" height="240" alt="logo">
             </div>
-
+            
+            <div class="instruction-container">
+                <p id="instruction">Cycle to start <br>
+                    the session!</p>
+            </div>
+            
             <div class="button-container">
-                <input type="button" value="Start" onclick="start_stop_session()" id="start_button">
+                <input type="button" value="Start" onclick="stop_session()" id="stop_button">
             </div>
-
         </div>
 
         <div class="right-col">
-            <h2>Time Elapsed: <span class="time-elapsed">00:00</span></h2>
-            <h2>Credits accum: <span class="time-elapsed">0</span> <img src="images/coin.png" width="15" height="15"></h2>
+            <div style="height: 80px; padding-bottom: 30px;">
+                <h2 style="text-align: center; color: white;">Time Elapsed: <span class ="elapsed-time-text">00:00</span></h2>
+            
+                <div class="progressBar">
+                    <div id="bar"></div>
+                </div>
+            </div>
+
+            <div style="height: 80px; padding-bottom: 50px;">
+                <h2 style="text-align: center; color: white;">Tokens earn from current workout</h2>
+                
+                <div style="display: flex;">
+                    <div style="float:left; padding-left: 50px; flex: 50%;">
+                        <img src="images/coin.png" width="75" height="75" style="padding: 20px">
+                    </div>
+    
+                    <div style="flex: 50%;">
+                        <span id="token">0</span>
+                    </div>
+                </div>  
+            </div>
+
+            <div class="terminate-button-container">
+                <input type="button" value="Unpair/Stop Machine" onclick="stop_session()" id="terminate_button">
+            </div>
         </div>
     </div>
+    
+    <script>
+        const btn = document.getElementById("stop_button");
+        const terminate_btn = document.getElementById("terminate_button");
+        const instruction = document.getElementById("instruction");
+        var elapsedTimeText = document.getElementsByClassName("elapsed-time-text")[0];
+        var earnedToken = document.getElementById("token");
+        var user_available_token = document.getElementById("user_token");
+        var bicycleImg = document.getElementById("bicycle");
+        var prog_bar = document.getElementById("bar");
+        var user_name = document.getElementById("user_name");
 
-    <div id="wrapper">
+
+    </script>
+
+    <div id="wrapper">  
         <!-- Footer Area -->
         <div class="footer-container">
             <div class="three-columns footer-padding">
                 <div class="row">
                     <div class="col">
                         <div class="logo-content">
-                            <img src="images/logo.png"  width=90px height=75px alt="">
+                            <img src="images/logo.png"  width="90" height="75" alt="logo">
                         </div>
                         <div class="logo-content">
                             <p>Caring is sharing</p>
-
-                            <!-- <p>An intiative powered by iNTUition@IEEENTU</p> -->
                         </div>
                     </div>
                     <div class="col">
-                        <div class="col-content">
-                            <h2>Contact Us</h2>
-                        </div>
-                        <div class="col-content">
-                            <table>
-                                <tr>
-                                    <td><img src="images/location.png" width="22px" height="22px"></td>
-                                    <td>
-                                        50 Nanyang Ave, Singapore 639798
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="images/contact.png" width="20px" height="20px"></td>
-                                    <td>(+65) 89002643</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="images/email.png" width="22px" height="22px"></td>
-                                    <td>
-                                        order@lapizzaria.com
-                                    </td>
-                                </tr>
-                            </table>
+                        <div class="col-content">   
+                            <img src="images/intu.png" width='100' height="100" alt="intu"></img>
+                            <h3>iNTUition <br>
+                                v9.0</h3>
                         </div>
                     </div>
                     <div class="col">
@@ -174,7 +326,7 @@
                             <h2>Opening Hours</h2>
                         </div>
                         <div class="col-content">
-                            <table>
+                            <table> 
                                 <tr>
                                     <td>Monday.............Closed</td>
                                 </tr>

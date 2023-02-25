@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Warm Water</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="lib/socket.io/client-dist/socket.io.min.js"></script>
+    <script src="lib/jquery/dist/jquery.min.js"></script>
+    <script>
+
+        var connect_success = false;
+        var user_id = "warmwater";
+        var device_id = "6969";
+        var user_available_token = 0;
+        
+        $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, device: device_id}); 
+        $.post("http://" + location.hostname + ":8080/request_available_credit",{username: user_id}, function(data){
+            //data is the current credit
+            user_available_token = data;
+            user_name.innerText = user_id;
+            user_token.innerText = user_available_token;
+        });     
+
+        //websocket connection
+        socket = io('http://'+ location.hostname + ':8080', {
+            reconnectionDelay: 1000,
+            reconnection: true,
+            reconnectionAttemps: 10,
+            transports: ['websocket'],
+            agent: false,
+            upgrade: false,
+            rejectUnauthorized: false
+        });
+
+        socket.on(user_id + '_connected', function(msg) {
+            location.reload();
+        });
+        //dummy ids
+
+        function returnMain(){
+            let new_url = "http://" + location.hostname + ":8080/WarmWater"
+            location.replace(new_url);
+        }
+
+        function pairMachine() {
+            // To Do
+            console.log("Connect button pressed");
+            // 1. When button press, submit request to server
+    
+            $.post("http://" + location.hostname + ":8080/from_device_connection_request",{username: user_id, device: device_id}, function(data){
+                if(data == "1"){
+                    // 2. While waiting for server reply, hide button and show loading.gif
+                    var button = document.getElementsByClassName("button-container");
+                    var load = document.getElementsByClassName("load-container");
+                    button[0].style.display = 'none';
+                    load[0].style.display = 'flex';
+                }
+            }); 
+            // 3. If request success, navigate to workout.html
+            //go to socket.on function
+        }
+
+    </script>
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: center;
+            /* margin-bottom: 100px; */
+            max-width: 1200px;
+        }
+
+        .item-banner {
+            cursor: pointer;
+            /* flex: 0 0 16%; */
+            margin: 15px;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+            text-align: center;
+            border-radius: 10px;
+            height: 400px;
+            width: 210px;
+            background-color:white;
+        }
+
+        .item-banner img, .hover-banner img {
+            margin-top: 15px;
+            width: 90%;
+            border-radius: 10px;
+            height: 150px;
+        }
+
+        .item-banner .text {
+            padding: 0 10%;
+            text-align: left;
+            height: 60%;
+        }
+
+        .item-banner .text h2{
+            color: #808080;
+            font-size: 30px;
+            padding-bottom: 5px;
+        }
+
+        .item-banner .text p{
+            font-size: 18px;
+            color: black;
+        }
+
+        /* Price text container */
+        .price-container {
+            width:100%;
+            display:flex;
+            padding-top: 10px;
+        }
+
+        .price {
+            display:block;
+            padding: 0 10%;
+        }
+
+        .price p{
+            font-size: 23px;
+            font-weight: 550;
+            text-align: left;
+            color: purple;
+        }
+        .textbox {
+            padding-top: 150px;
+            text-align: center;
+            color: #FFFFFF;
+        }
+        
+        .textbox p {
+            font-style: italic;
+            text-transform: capitalize;
+        }
+
+        .button {
+            color: #131230;
+            background: #ffb606;
+            font-family: "Roboto", sans-serif;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid transparent;
+            display: inline-block;
+            padding: 12px 30px;
+            text-decoration: none;
+        }
+
+        .button-padding {
+            margin: 40px;
+        }
+
+        .button:hover {
+            color: #131230;
+            background: transparent;
+            border: 1px solid #ffb606;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .button-container button {
+            color: #131230;
+            background: #ffb606;
+            font-family: "Roboto", sans-serif;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid transparent;
+            display: inline-block;
+            padding: 12px 30px;
+            text-decoration: none;
+        }
+        
+        .load-container {
+            display: none;
+            justify-content: center;
+            height: 100px;
+            margin-top: 0px;
+        }
+
+        .left-col {
+            flex: 50%;
+        }
+
+        .left-col-img {
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+            
+        .right-col {
+            flex: 50%;
+        }
+
+        .text-description {
+            display: block;
+            text-align: center;
+            height: 100px;
+            margin-bottom: 80px;
+
+        }
+
+        .text-description h2 {
+            font-size: 50px;
+        }
+
+        .title {
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <div class="nav-container">
+        <nav>
+            <div id="left-nav">
+                <img src="images/logo.png" width="55" height="50" alt="logo" onclick="returnMain()"></a>
+            </div>
+            <ul>
+                <li>Pair Device</li>
+                <li>About Us</li>
+                <li>Programmes</li>
+
+                <li style="float: right;"><span id="user_name">Login</span></li>
+                <li style="float: right;"><span id="user_token">0</span></li>
+                <li style="float: right;"><img src="images/coin.png" width="25" height="25"></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main container -->
+    <div style="background-color: #66CCCC;">
+        <div class="title">
+            <h2>Supplementary</h2>
+        </div>
+            <div class="main-container">
+                <div class="item-banner">
+                    <div>
+                        <img src="images/supp1.png"  alt="d1">
+                        <div class="text" id="pizzaname">
+                            <h2>C4 Sport</h2>
+                            <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">
+                            <p class="float-left">$12.00</p>
+                        </div>
+                        <div class="button-col">
+                            <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-banner">
+                    <div>
+                        <img src="images/supp2.png"  alt="d1">
+                        <div class="text" id="pizzaname">
+                            <h2>Whey Gold</h2>
+                            <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">
+                            <p class="float-left">$12.00</p>
+                        </div>
+                        <div class="button-col">
+                            <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-banner">
+                    <div>
+                        <img src="images/supp3.png"  alt="d1">
+                        <div class="text" id="pizzaname">
+                            <h2>Creatine</h2>
+                            <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">
+                            <p class="float-left">$12.00</p>
+                        </div>
+                        <div class="button-col">
+                            <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-banner">
+                    <div>
+                        <img src="images/supp4.png"  alt="d1">
+                        <div class="text" id="pizzaname">
+                            <h2>Protein     Combo</h2>
+                            <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">
+                            <p class="float-left">$12.00</p>
+                        </div>
+                        <div class="button-col">
+                            <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-banner">
+                    <div>
+                        <img src="images/supp5.png"  alt="d1">
+                        <div class="text" id="pizzaname">
+                            <h2>Ginseng</h2>
+                            <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">
+                            <p class="float-left">$12.00</p>
+                        </div>
+                        <div class="button-col">
+                            <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="title">
+                <h2>Vitamin</h2>
+            </div>
+                <div class="main-container">
+                    <div class="item-banner">
+                        <div>
+                            <img src="images/supp6.png"  alt="d1">
+                            <div class="text" id="pizzaname">
+                                <h2>Blackmores</h2>
+                                <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                        </div>
+                        <div class="price-container">
+                            <div class="price">
+                                <p class="float-left">$12.00</p>
+                            </div>
+                            <div class="button-col">
+                                <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-banner">
+                        <div>
+                            <img src="images/supp7.png"  alt="d1">
+                            <div class="text" id="pizzaname">
+                                <h2>Bird Nest</h2>
+                                <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                        </div>
+                        <div class="price-container">
+                            <div class="price">
+                                <p class="float-left">$12.00</p>
+                            </div>
+                            <div class="button-col">
+                                <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-banner">
+                        <div>
+                            <img src="images/supp8.png"  alt="d1">
+                            <div class="text" id="pizzaname">
+                                <h2>Vitamin     A</h2>
+                                <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                        </div>
+                        <div class="price-container">
+                            <div class="price">
+                                <p class="float-left">$12.00</p>
+                            </div>
+                            <div class="button-col">
+                                <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-banner">
+                        <div>
+                            <img src="images/supp9.png"  alt="d1">
+                            <div class="text" id="pizzaname">
+                                <h2>Vitamin W</h2>
+                                <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                        </div>
+                        <div class="price-container">
+                            <div class="price">
+                                <p class="float-left">$12.00</p>
+                            </div>
+                            <div class="button-col">
+                                <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-banner">
+                        <div>
+                            <img src="images/supp10.png"  alt="d1">
+                            <div class="text" id="pizzaname">
+                                <h2>Vit Combo</h2>
+                                <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                        </div>
+                        <div class="price-container">
+                            <div class="price">
+                                <p class="float-left">$12.00</p>
+                            </div>
+                            <div class="button-col">
+                                <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="wrapper">
+        <!-- Footer Area -->
+        <div class="footer-container">
+            <div class="three-columns footer-padding">
+                <div class="row">
+                    <div class="col">
+                        <div class="logo-content">
+                            <img src="images/logo.png"  width="90" height="75" alt="logo">
+                        </div>
+                        <div class="logo-content">
+                            <p>Caring is sharing</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="col-content">
+                            <h2>Event Sponsor</h2>
+                        </div>
+                        <div class="col-content">
+                            <div>
+                                <p style="font-size: 18px;">An intiative powered by <br>
+                                    iNTUition@IEEENTU</p>
+                            </div>
+                            <div>
+                                <img src="images/intu.png" width='90' height="75" alt="intu"></img>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="col-content">
+                            <h2>Opening Hours</h2>
+                        </div>
+                        <div class="col-content">
+                            <table>
+                                <tr>
+                                    <td>Monday.............Closed</td>
+                                </tr>
+                                <tr>
+                                    <td>Tue-Fri.........10am - 12pm</td>
+                                </tr>
+                                <tr>
+                                    <td>Sat-Sun..........8am - 11pm</td>
+                                </tr>
+                                <tr>
+                                    <td>Holidays........10am - 12pm</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

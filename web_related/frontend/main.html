@@ -12,9 +12,21 @@
         var connect_success = false;
         var user_id = "warmwater";
         var device_id = "6969";
+        var user_available_token = 0;
         
-        $.post("http://" + location.hostname + ":8080/workout_stopped",{username: user_id, device: device_id}, function(data){
-        }); 
+        $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, earned_credit: "0"}); 
+        $.post("http://" + location.hostname + ":8080/request_available_credit",{username: user_id}, function(data){
+            //data is the current credit
+            user_available_token = data;
+            user_name.innerText = user_id;
+            user_token.innerText = user_available_token;
+        });     
+
+        function go_shop(){
+            let new_url = "http://" + location.hostname + ":8080/VouchersAvailable"
+            location.replace(new_url);
+        }
+
         //websocket connection
         socket = io('http://'+ location.hostname + ':8080', {
             reconnectionDelay: 1000,
@@ -122,7 +134,7 @@
         }
 
         .left-col {
-            flex: 50%;
+            flex: 40%;
         }
 
         .left-col-img {
@@ -131,7 +143,7 @@
         }
             
         .right-col {
-            flex: 50%;
+            flex: 60%;
         }
 
         .text-description {
@@ -156,12 +168,13 @@
                 <img src="images/logo.png" width="55" height="50" alt="logo"></a>
             </div>
             <ul>
-                <li>Pair Device</li>
-                <li>Workout</li>
+                <li class="active">Pair Device</li>
                 <li>About Us</li>
                 <li>Programmes</li>
 
-                <li style="float: right;">Login</li>
+                <li style="float: right;"><span id="user_name">Login</span></li>
+                <li style="float: right;"><span id="user_token">0</span></li>
+                <li style="float: right;"><img src="images/coin.png" width="25" height="25" onclick="go_shop()"></li>
             </ul>
         </nav>
     </div>
@@ -196,6 +209,8 @@
         <script>
             const connect_btn = document.getElementById("pair_button");
             connect_btn.addEventListener("click", pairMachine, false);
+            var user_token = document.getElementById("user_token");
+            var user_name = document.getElementById("user_name");
         </script>
     </div>
 
@@ -206,37 +221,23 @@
                 <div class="row">
                     <div class="col">
                         <div class="logo-content">
-                            <img src="images/logo.png"  width=90px height=75px alt=""></a>
+                            <img src="images/logo.png"  width="90" height="75" alt="logo">
                         </div>
                         <div class="logo-content">
                             <p>Caring is sharing</p>
-
-                            <!-- <p>An intiative powered by iNTUition@IEEENTU</p> -->
                         </div>
                     </div>
                     <div class="col">
                         <div class="col-content">
-                            <h2>Contact Us</h2>
+                            <h2>Event Sponsor</h2>
                         </div>
                         <div class="col-content">
-                            <table>
-                                <tr>
-                                    <td><img src="images/location.png" width="22px" height="22px"></td>
-                                    <td>
-                                        50 Nanyang Ave, Singapore 639798
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="images/contact.png" width="20px" height="20px"></td>
-                                    <td>(+65) 89002643</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="images/email.png" width="22px" height="22px"></td>
-                                    <td>
-                                        order@lapizzaria.com
-                                    </td>
-                                </tr>
-                            </table>
+                            <div>
+                                <p>An intiative powered by iNTUition@IEEENTU</p>
+                            </div>
+                            <div>
+                                <img src="images/intu.png" width='90' height="75" alt="intu"></img>
+                            </div>
                         </div>
                     </div>
                     <div class="col">
