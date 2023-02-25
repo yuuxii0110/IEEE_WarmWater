@@ -13,23 +13,18 @@
         // 1. When start session button is pressed, send a req to server
         
         // 2. When end session button is pressed, req for token earned
-        function start_stop_session() {
-            const btn = document.getElementById("start_button");
-
-            if (btn.value == 'Start') {
-                // Start session
-                console.log("Start session");
-                btn.value = 'End';
-            }
-            else {
-                console.log("End session");
-                btn.value = "Start";
-            }
-
-        }
 
         function start_action(){
             //To do
+            console.log("Start session");
+
+            // Show stop button
+            btn.value = 'End Session';
+            btn.style.display = "block";
+
+            instruction.style.display = "none";
+
+            startTimer();
         }
 
         socket = io('http://'+ location.hostname + ':8080', {
@@ -56,6 +51,8 @@
 
         socket.on(user_id + '_feedback', function(msg) {
             //to do: msg is the current credit earned
+            var current_credit = msg;
+            earnedToken.innerText = current_credit;
         });
         
 
@@ -106,9 +103,13 @@
             font-size: 14px;
             font-weight: 500;
             border: 1px solid transparent;
-            display: inline-block;
+            display: none;
             padding: 12px 30px;
             text-decoration: none;
+        }
+
+        .instruction-container {
+            text-align: center;
         }
 
         .left-col {
@@ -169,26 +170,36 @@
     <div class="status-container">
         <div class="left-col">
             <div class="left-col-img">
-                <img src="images/cycling.gif" width="240" height="200" alt="logo">
+                <img id="bicycle" src="images/cycling-still.png" width="240" height="200" alt="logo">
             </div>
-
+            
+            <div class="instruction-container">
+                <p id="instruction">Cycle to start <br>
+                    the session!</p>
+            </div>
+            
             <div class="button-container">
-                <input type="button" value="Start" onclick="start_stop_session()" id="start_button">
+                <input type="button" value="Start" onclick="stop_session()" id="start_button">
             </div>
         </div>
 
         <div class="right-col">
             <h2>Time Elapsed: <span class ="elapsed-time-text">00:00</span></h2>
+
             <div id="progressBar">
                 <div class="bar"></div>
             </div>
-            <h2>Credits accum: <span class="time-elapsed">0</span> <img src="images/coin.png" width="15" height="15"></h2>
+
+            <h2>Credits accum: <span id="token">0</span> <img src="images/coin.png" width="15" height="15"></h2>
         </div>
     </div>
     
     <script>
         const btn = document.getElementById("start_button");
+        const instruction = document.getElementById("instruction");
         var elapsedTimeText = document.getElementsByClassName("elapsed-time-text")[0];
+        var earnedToken = document.getElementById("token");
+        var bicycleImg = document.getElementsById("bicycle");
 
     </script>
 

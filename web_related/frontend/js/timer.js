@@ -37,21 +37,15 @@ function stopTimer() {
     }
 }   
 
-function start_stop_session() {
-    if (btn.value == 'Start') {
-        // Start session
-        console.log("Start session");
-        btn.value = 'End';
+function stop_session() {
+    console.log("End session");
 
-        // Timer function
-        startTimer();
-    }
-    else {
-        console.log("End session");
-        btn.value = "Start";
+    btn.style.display = "none";
+    
+    instruction.style.display = "inline-block";
+    bicycleImg.src = "images/cycling-still.png";
 
-        stopTimer();
-    }
+    stopTimer();
 
 }
 
