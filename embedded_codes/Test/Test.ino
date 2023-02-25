@@ -1,6 +1,5 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
-#include <string>
 #include <iostream>
 #include <ESP32PWM.h>
 
@@ -14,12 +13,12 @@ const int mqtt_port = 1883;
 const char* mqtt_user = "WarmWater";
 const char* mqtt_password = "Warm1234";
 
-String userid="";
-String deviceid="6969";
-bool flag=0;
-bool prevflag=0;
+std::string userid;
+std::string deviceid="6969";
+bool working_out=0;
+bool prev_working_out=0;
 bool moving=0;
-
+bool konek=0;
 WiFiClient espClient;
 PubSubClient client(espClient);
 
@@ -56,7 +55,7 @@ void setup() {
   Serial.println("Connected to WiFi!");
 
   client.setServer(mqtt_server, mqtt_port);
-//  client.setCallback(callback);
+  client.setCallback(callback);
 
   while (!client.connected()) {
     Serial.println("Connecting to MQTT broker...");
@@ -67,87 +66,113 @@ void setup() {
       Serial.println(client.state());
       delay(2000);
     }
-  }
-
-  
+  } 
   // Subscribe to a topic 
-  client.subscribe("test_topic");
-  ledcWriteTone(channel, frequency); // generate a square wave of the specified frequency on the buzzer pin
-  delay(1000); // wait for 1 second
-  ledcWrite(channel, 0); // stop generating the square wave
+  std::string pair="/pair_request/"+deviceid;
+  client.subscribe(pair.c_str());
     // Wait for incoming messages from MQTT broker
-  client.loop();
+  
 }
 
 void loop() {
+  client.loop();
   // Send a message to the MQTT broker
-  
-  delay(200); 
-  int value = analogRead(motorPin);
-  unsigned long now=millis();
-  if (value>0){ 
-    Energy+=value;
-    Serial.println(Energy);
-    int myInt = value; // example integer
-    char myString[4]; // buffer for converted string
-    sprintf(myString, "%d", myInt); // convert int to const char* string
-    client.publish("test_topic",myString);
-    moving=1;      
-    flag=1;
-  }
-  else {
-    if (moving){//every stop
-      prev=millis();
-      moving=0;
+//  delay(200); 
+  if (konek){
+    int value = analogRead(motorPin);
+//    Serial.println(value);
+    unsigned long now=millis();
+    if (value>0){ 
+      Energy+=value;
+//      Serial.println(Energy);
+      moving=1;      
+    }
+    
+    else {
+      if (moving){//every stop
+        prev=millis();
+        moving=0;
+      }
+      if ((now-prev)>5000) {//stop for more than 5 sec
+        working_out=0;
+        } 
+    }
 
+    if(moving && !working_out){
+      working_out=1;
     }
-    if ((now-prev)>5000) {//stop for more than 5 sec
-      flag=0;
-      } 
-  }
-  if((now-refresh)>5000){// send data every 5sec
-      workoutTime=millis()-startT;
-      char myTime[8]; // buffer for converted string
-      sprintf(myTime, "%d", workoutTime); // convert int to const char* string
-      char myEnergy[8]; // buffer for converted string
-      sprintf(myEnergy, "%d", Energy); // convert int to const char* string
-      String msg=userid + "/" + myEnergy + "/" +myTime;
-      client.publish("energy_and_time",msg.c_str());
-      refresh=now;
-      Serial.println(msg);
+
+    
+
+      
+    if(working_out!=prev_working_out){//start or end
+      if (working_out){//start
+        digitalWrite(LED,HIGH);
+        startT=millis();
+        std::string msg=userid + "/" + deviceid;
+        client.publish("workout_started",msg.c_str());
+      }
+      else if (working_out==0){//end
+        digitalWrite(LED,LOW);
+        workoutTime=millis()-startT;
+        char myTime[8]; // buffer for converted std::string
+        sprintf(myTime, "%d", workoutTime); // convert int to const char* std::string
+        char myEnergy[8]; // buffer for converted std::string
+        sprintf(myEnergy, "%d", Energy); // convert int to const char* std::string
+        std::string msg=userid + "/" + deviceid + "/"+ myTime +"/" + myEnergy;
+        client.publish("disconnect_device",msg.c_str());
+        //Serial.println(msg);
+      }
+      prev_working_out=working_out;
     }
-  if(flag!=prevflag){//start or end
-    if (flag==1){//start
-      digitalWrite(LED,HIGH);
-      startT=millis();
-      String msg=deviceid + "/" + userid;
-      client.publish("connection_established",msg.c_str());
-    }
-    else if (flag==0){//end
-      digitalWrite(LED,LOW);
-      workoutTime=millis()-startT;
-      char myTime[8]; // buffer for converted string
-      sprintf(myTime, "%d", workoutTime); // convert int to const char* string
-      char myEnergy[8]; // buffer for converted string
-      sprintf(myEnergy, "%d", Energy); // convert int to const char* string
-      String msg=userid + "/" + deviceid + "/"+ myTime +"/" + myEnergy;
-      client.publish("disconnect_device",msg.c_str());
-      Serial.println(workoutTime);
-    }
-    prevflag=flag;
+    if((now-refresh)>5000&&(working_out)){// send data every 5sec
+        workoutTime=millis()-startT;
+        char myTime[8]; // buffer for converted std::string
+        sprintf(myTime, "%d", workoutTime); // convert int to const char* std::string
+        char myEnergy[8]; // buffer for converted std::string
+        sprintf(myEnergy, "%d", Energy); // convert int to const char* std::string
+        std::string msg=userid + "/" + myEnergy + "/" +myTime;
+        client.publish("energy_and_time",msg.c_str());
+        refresh=now;
+      }
   }
 }
 // MQTT callback function to handle incoming messages
-//void callback(char* topic, byte* payload, unsigned int length) {
-//  Serial.print("Message arrived in topic: ");
-//  Serial.println(topic);
-//  Serial.print("Message: ");
-//
-//  for (int i = 0; i < length; i++) {
-//    Serial.print((char)payload[i]);
-//  }
-//  Serial.println();
-//}
+void callback(char* topic, byte* payload, unsigned int len) {
+  Serial.print("Message arrived in topic: ");
+  Serial.println(topic);
+  Serial.print("Message: ");
+  std::string str(topic);
+  std::string str2="/pair_request/"+deviceid;
+  if (str==str2){
+    int var = *payload;
+    if(var != konek){
+      if (*payload=='0'){
+      konek=0;
+      working_out=0;
+      prev_working_out=0;
+      moving=0;
+      }
+    if (*payload=='1'){
+      konek=1;
+      working_out=0;
+      prev_working_out=0;
+      moving=0;
+      Serial.println("Connected");
+//      ledcWriteTone(channel, frequency); // generate a square wave of the specified frequency on the buzzer pin
+//      delay(500); // wait for 1 second
+//      ledcWrite(channel, 0); // stop generating the square wave
+      }
+    std::string useridtemp="";
+    Serial.println(len);
+    for (int i = 2; i < len; i++) {
+      useridtemp+=(char)payload[i];
+      }
+    userid=useridtemp;
+    }
+    
+    }
+}
 
 //void intToBytes(int value, byte* bytes) {
 //  bytes[0] = (value >> 8) & 0xFF;
@@ -166,3 +191,6 @@ void loop() {
 
 
 //energy/time every 5 sec
+
+
+//moving 0 to 1
