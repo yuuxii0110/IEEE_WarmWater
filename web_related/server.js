@@ -126,6 +126,7 @@ router.post("/session_ended",urlencodedParser, (req, res) => {
     let earned_credit = parseInt(req.body.credit);
     let previous_credit = parseInt(client_credit_map.get(user_id));
     client_credit_map.set(user_id,earned_credit+previous_credit)
+    console.log("log user credit, ", client_credit_map.get(user_id));
     client_device_map.delete(user_id);
     res.end("1");
 });
