@@ -34,6 +34,7 @@ function startTimer() {
     var timetotal = 200;
 
     elapsedTimeIntervalRef = setInterval(() =>{
+        
         elapsedTimeText.innerText = timeAndDateHandling.getElapsedTime(startTime);
 
         if (progressBarWidth < 90) {
@@ -49,7 +50,9 @@ function startTimer() {
     }, 1000);
 }
 
-function pauseTimer() {
+function pause_session() {
+
+    console.log("Session paused");
 
     // Clear interval
     if (typeof elapsedTimeIntervalRef !== "undefined") {
@@ -89,11 +92,6 @@ function stopTimer() {
         elapsedTimeIntervalRef = undefined;
     }
 }   
-
-function stop_session() {
-
-
-}
 
 var timeAndDateHandling = {
     /** Computes the elapsed time since the moment the function is called in the format mm:ss or hh:mm:ss
@@ -148,6 +146,3 @@ var timeAndDateHandling = {
         }
     }
 }
-
-
-// startTimer();
