@@ -32,10 +32,13 @@
         }
 
         function stop_session(){
-            $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, earned_credit: credit}, function(data){
-                // user_name.innerText = user_id;
-                location.reload();
+            $.post("http://" + location.hostname + ":8080/from_device_disconnect_request",{username: user_id, device_id: device_id}, function(data){
+                $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, earned_credit: credit}, function(data){
+                    // user_name.innerText = user_id;
+                    location.reload();
+                }); 
             }); 
+
         }
 
         socket = io('http://'+ location.hostname + ':8080', {
@@ -67,12 +70,12 @@
 
         });
 
-        socket.on(user_id + '_disconnected', function(msg){
-            console.log("i am quit!")
-            $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, device: device_id}, function(data){
-                location.reload();
-            });
-        });
+        // socket.on(user_id + '_disconnected', function(msg){
+        //     console.log("i am quit!")
+        //     // $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, device: device_id}, function(data){
+        //     //     location.reload();
+        //     // });
+        // });
 
         socket.on(user_id + '_feedback', function(msg) {
             //to do: msg is the current credit earned

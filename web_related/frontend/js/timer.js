@@ -22,7 +22,7 @@ function startTimer() {
         var progressBarWidth = initTime / timetotal;
         prog_bar.style.width = progressBarWidth + "%";
 
-        initTime ++;
+        initTime = initTime + 1;
 
     }, 1000);
 }

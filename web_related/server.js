@@ -117,6 +117,13 @@ client.on("message", function (topic, payload){
 
 router.post("/session_ended",urlencodedParser, (req, res) => {
     req.session.session_on_going = null;
+    let user_id = req.body.username;
+    register_if_not_done(user_id);
+    let earned_credit = req.body.credit;
+    let previous_credit = parseInt(client_credit_map.get(user_id));
+    client_credit_map.set(user_id,earned_credit+previous_credit)
+    res.end(earned_credit);
+    client_device_map.delete(user_id);
     res.end("1");
 });
 
@@ -130,11 +137,11 @@ router.post("/from_device_connection_request",urlencodedParser, (req, res) => {
 
 router.post("/from_device_disconnect_request",urlencodedParser, (req, res) => {
     let user_id = req.body.username;
-    let earned_credit = req.body.credit;
+    let device_id = req.body.device_id;
     const topic = "/pair_request/" + device_id;
     const message = "0/"+user_id;
     client.publish(topic, message);
-    io.emit(user_id + '_disconnected', earned_credit); 
+    res.end("1");
 });
 
 router.post('/log_in',urlencodedParser, (req, res) => {
@@ -151,17 +158,15 @@ router.post('/log_in',urlencodedParser, (req, res) => {
     }
 });
 
-router.post('/session_end',urlencodedParser, (req, res) => {
-    let user_id = req.body.username;
-    register_if_not_done(user_id);
-    let time = req.body.time;
-    let energy = req.body.energy;
-    let earned_credit = calculate_credit(time,energy);
-    let previous_credit = parseInt(client_credit_map.get(user_id));
-    client_credit_map.set(user_id,earned_credit+previous_credit)
-    res.end(credit);
-    client_device_map.delete(user_id);
-});
+// router.post('/session_end',urlencodedParser, (req, res) => {
+//     let user_id = req.body.username;
+//     register_if_not_done(user_id);
+//     let earned_credit = req.body.credit;
+//     let previous_credit = parseInt(client_credit_map.get(user_id));
+//     client_credit_map.set(user_id,earned_credit+previous_credit)
+//     res.end(credit);
+//     client_device_map.delete(user_id);
+// });
 
 router.post('/request_available_credit',urlencodedParser, (req, res) => {
     let user_id = req.body.username;
