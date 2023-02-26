@@ -80,7 +80,7 @@
             box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
             text-align: center;
             border-radius: 10px;
-            height: 400px;
+            height: 360px;
             width: 210px;
             background-color:white;
         }
@@ -90,6 +90,10 @@
             width: 90%;
             border-radius: 10px;
             height: 150px;
+        }
+
+        .item-banner:hover {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 5px 15px 0 rgba(0, 0, 0, 0.19);
         }
 
         .item-banner .text {
@@ -107,6 +111,19 @@
         .item-banner .text p{
             font-size: 18px;
             color: black;
+        }
+
+        .coin-container {
+            display: flex;
+            justify-content: center;
+            border-radius: 12px;
+            margin: 0 10px;
+        }
+
+        .coin-container .coin-image img {
+            width: 40px;
+            height: 40px;
+            padding-left: 50px;
         }
 
         /* Price text container */
@@ -215,6 +232,13 @@
             text-align: center;
         }
 
+        .addtocart {
+            font-size: 20px;
+            color: red;
+            text-transform: uppercase;
+            padding-right: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -239,38 +263,59 @@
     <!-- Main container -->
     <div style="background-color: #66CCCC;">
         <div class="title">
-            <h2>Supplementary</h2>
+            <h1>Supplementary</h1>
         </div>
             <div class="main-container">
+
                 <div class="item-banner">
                     <div>
                         <img src="images/supp1.png"  alt="d1">
                         <div class="text" id="pizzaname">
                             <h2>C4 Sport</h2>
-                            <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                            <p class="double-line">Made with pork, beef, salt.</p></div>
                     </div>
+
                     <div class="price-container">
                         <div class="price">
                             <p class="float-left">$12.00</p>
                         </div>
                         <div class="button-col">
-                            <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                            <a class="addtocart">30% off</a>
+                        </div>
+                    </div>
+
+                    <div class="coin-container">
+                        <div style="flex: 30%; justify-content: center;" class="coin-image">
+                            <img src="images/coin.png">
+                        </div>
+                        <div style="flex: 70%; justify-content: center; padding-top: 20px;">
+                            <span class="coin" style="font-size: 20px;">12,500</span>
                         </div>
                     </div>
                 </div>
+
                 <div class="item-banner">
                     <div>
                         <img src="images/supp2.png"  alt="d1">
                         <div class="text" id="pizzaname">
                             <h2>Whey Gold</h2>
-                            <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                            <p class="double-line">Made with pork, beef, salt.</p></div>
                     </div>
                     <div class="price-container">
                         <div class="price">
                             <p class="float-left">$12.00</p>
                         </div>
                         <div class="button-col">
-                            <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                            <a class="addtocart">30% off</a>
+                        </div>
+                    </div>
+
+                    <div class="coin-container">
+                        <div style="flex: 30%; justify-content: center;" class="coin-image">
+                            <img src="images/coin.png">
+                        </div>
+                        <div style="flex: 70%; justify-content: center; padding-top: 20px;">
+                            <span class="coin" style="font-size: 20px;">12,500</span>
                         </div>
                     </div>
                 </div>
@@ -279,14 +324,23 @@
                         <img src="images/supp3.png"  alt="d1">
                         <div class="text" id="pizzaname">
                             <h2>Creatine</h2>
-                            <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                            <p class="double-line">Made with pork, beef, salt.</p></div>
                     </div>
                     <div class="price-container">
                         <div class="price">
                             <p class="float-left">$12.00</p>
                         </div>
                         <div class="button-col">
-                            <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                            <a class="addtocart">30% off</a>
+                        </div>
+                    </div>
+
+                    <div class="coin-container">
+                        <div style="flex: 30%; justify-content: center;" class="coin-image">
+                            <img src="images/coin.png">
+                        </div>
+                        <div style="flex: 70%; justify-content: center; padding-top: 20px;">
+                            <span class="coin" style="font-size: 20px;">15,000</span>
                         </div>
                     </div>
                 </div>
@@ -294,15 +348,24 @@
                     <div>
                         <img src="images/supp4.png"  alt="d1">
                         <div class="text" id="pizzaname">
-                            <h2>Protein     Combo</h2>
-                            <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                            <h2>Protein Set</h2>
+                            <p class="double-line">Made with pork, beef, salt.</p></div>
                     </div>
                     <div class="price-container">
                         <div class="price">
                             <p class="float-left">$12.00</p>
                         </div>
                         <div class="button-col">
-                            <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                            <a class="addtocart">30% off</a>
+                        </div>
+                    </div>
+
+                    <div class="coin-container">
+                        <div style="flex: 30%; justify-content: center;" class="coin-image">
+                            <img src="images/coin.png">
+                        </div>
+                        <div style="flex: 70%; justify-content: center; padding-top: 20px;">
+                            <span class="coin" style="font-size: 20px;">10,000</span>
                         </div>
                     </div>
                 </div>
@@ -311,20 +374,29 @@
                         <img src="images/supp5.png"  alt="d1">
                         <div class="text" id="pizzaname">
                             <h2>Ginseng</h2>
-                            <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                            <p class="double-line">Made with pork, beef, salt.</p></div>
                     </div>
                     <div class="price-container">
                         <div class="price">
                             <p class="float-left">$12.00</p>
                         </div>
                         <div class="button-col">
-                            <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                            <a class="addtocart">30% off</a>
+                        </div>
+                    </div>
+
+                    <div class="coin-container">
+                        <div style="flex: 30%; justify-content: center;" class="coin-image">
+                            <img src="images/coin.png">
+                        </div>
+                        <div style="flex: 70%; justify-content: center; padding-top: 20px;">
+                            <span class="coin" style="font-size: 20px;">12,500</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="title">
-                <h2>Vitamin</h2>
+                <h1>Vitamin</h1>
             </div>
                 <div class="main-container">
                     <div class="item-banner">
@@ -332,14 +404,23 @@
                             <img src="images/supp6.png"  alt="d1">
                             <div class="text" id="pizzaname">
                                 <h2>Blackmores</h2>
-                                <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                                <p class="double-line">Made with pork, beef, salt.</p></div>
                         </div>
                         <div class="price-container">
                             <div class="price">
                                 <p class="float-left">$12.00</p>
                             </div>
                             <div class="button-col">
-                                <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                                <a class="addtocart">30% off</a>
+                            </div>
+                        </div>
+    
+                        <div class="coin-container">
+                            <div style="flex: 30%; justify-content: center;" class="coin-image">
+                                <img src="images/coin.png">
+                            </div>
+                            <div style="flex: 70%; justify-content: center; padding-top: 20px;">
+                                <span class="coin" style="font-size: 20px;">15,000</span>
                             </div>
                         </div>
                     </div>
@@ -348,14 +429,23 @@
                             <img src="images/supp7.png"  alt="d1">
                             <div class="text" id="pizzaname">
                                 <h2>Bird Nest</h2>
-                                <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                                <p class="double-line">Made with pork, beef, salt.</p></div>
                         </div>
                         <div class="price-container">
                             <div class="price">
                                 <p class="float-left">$12.00</p>
                             </div>
                             <div class="button-col">
-                                <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                                <a class="addtocart">30% off</a>
+                            </div>
+                        </div>
+    
+                        <div class="coin-container">
+                            <div style="flex: 30%; justify-content: center;" class="coin-image">
+                                <img src="images/coin.png">
+                            </div>
+                            <div style="flex: 70%; justify-content: center; padding-top: 20px;">
+                                <span class="coin" style="font-size: 20px;">15,000</span>
                             </div>
                         </div>
                     </div>
@@ -364,14 +454,23 @@
                             <img src="images/supp8.png"  alt="d1">
                             <div class="text" id="pizzaname">
                                 <h2>Vitamin     A</h2>
-                                <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                                <p class="double-line">Made with pork, beef, salt.</p></div>
                         </div>
                         <div class="price-container">
                             <div class="price">
                                 <p class="float-left">$12.00</p>
                             </div>
                             <div class="button-col">
-                                <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                                <a class="addtocart">30% off</a>
+                            </div>
+                        </div>
+    
+                        <div class="coin-container">
+                            <div style="flex: 30%; justify-content: center;" class="coin-image">
+                                <img src="images/coin.png">
+                            </div>
+                            <div style="flex: 70%; justify-content: center; padding-top: 20px;">
+                                <span class="coin" style="font-size: 20px;">13,500</span>
                             </div>
                         </div>
                     </div>
@@ -380,14 +479,23 @@
                             <img src="images/supp9.png"  alt="d1">
                             <div class="text" id="pizzaname">
                                 <h2>Vitamin W</h2>
-                                <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                                <p class="double-line">Made with pork, beef, salt.</p></div>
                         </div>
                         <div class="price-container">
                             <div class="price">
                                 <p class="float-left">$12.00</p>
                             </div>
                             <div class="button-col">
-                                <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                                <a class="addtocart">30% off</a>
+                            </div>
+                        </div>
+    
+                        <div class="coin-container">
+                            <div style="flex: 30%; justify-content: center;" class="coin-image">
+                                <img src="images/coin.png">
+                            </div>
+                            <div style="flex: 70%; justify-content: center; padding-top: 20px;">
+                                <span class="coin" style="font-size: 20px;">12,500</span>
                             </div>
                         </div>
                     </div>
@@ -396,14 +504,23 @@
                             <img src="images/supp10.png"  alt="d1">
                             <div class="text" id="pizzaname">
                                 <h2>Vit Combo</h2>
-                                <p class="double-line">Made with pork, beef, salt and natural spices such as paprika, rosemary and cinnamon.</p></div>
+                                <p class="double-line">Made with pork, beef, salt.</p></div>
                         </div>
                         <div class="price-container">
                             <div class="price">
                                 <p class="float-left">$12.00</p>
                             </div>
                             <div class="button-col">
-                                <a href="main.php?page=product&id=17?" class="addtocart">Add to cart</a>
+                                <a class="addtocart">30% off</a>
+                            </div>
+                        </div>
+    
+                        <div class="coin-container">
+                            <div style="flex: 30%; justify-content: center;" class="coin-image">
+                                <img src="images/coin.png">
+                            </div>
+                            <div style="flex: 70%; justify-content: center; padding-top: 20px;">
+                                <span class="coin" style="font-size: 20px;">12,500</span>
                             </div>
                         </div>
                     </div>
