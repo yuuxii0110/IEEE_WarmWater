@@ -38,6 +38,11 @@
         });
         //dummy ids
 
+        function returnMain(){
+            let new_url = "http://" + location.hostname + ":8080/WarmWater"
+            location.replace(new_url);
+        }
+
         function pairMachine() {
             // To Do
             console.log("Connect button pressed");
@@ -246,7 +251,7 @@
     <div class="nav-container">
         <nav>
             <div id="left-nav">
-                <img src="images/logo.png" width="55" height="50" alt="logo"></a>
+                <img src="images/logo.png" width="55" height="50" alt="logo" onclick="returnMain()"></a>
             </div>
             <ul>
                 <li>Pair Device</li>
