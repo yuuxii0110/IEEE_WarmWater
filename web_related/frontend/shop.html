@@ -14,7 +14,7 @@
         var device_id = "6969";
         var user_available_token = 0;
         
-        $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, device: device_id}); 
+        $.post("http://" + location.hostname + ":8080/session_ended",{username: user_id, earned_credit: "0"}); 
         $.post("http://" + location.hostname + ":8080/request_available_credit",{username: user_id}, function(data){
             //data is the current credit
             user_available_token = data;

@@ -101,7 +101,7 @@
             earnedToken.innerText = current_credit;
 
             // update progress bar
-            var progressBarWidth = tokenCount / tokenLimit * 100;
+            var progressBarWidth = parseInt(current_credit) / tokenLimit * 100;
 
             if (progressBarWidth < 90) {
                 prog_bar.style.width = progressBarWidth + "%";

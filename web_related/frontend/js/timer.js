@@ -36,17 +36,6 @@ function startTimer() {
     elapsedTimeIntervalRef = setInterval(() =>{
         
         elapsedTimeText.innerText = timeAndDateHandling.getElapsedTime(startTime);
-        
-        var progressBarWidth = initTime / timetotal * 100;
-
-        if (progressBarWidth < 90) {
-            prog_bar.style.width = progressBarWidth + "%";
-            initTime = initTime + 1;
-        }
-        else{
-            reachedDailyWorkout = true;
-            prog_bar.style.backgroundColor = "#7CFC00";
-        }
 
     }, 1000);
 }
