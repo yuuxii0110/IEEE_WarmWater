@@ -33,7 +33,7 @@ function subscribe_mqtt_topics(){
 }
 
 function calculate_credit(time, energy, weightage=1){
-    return Math.round(weightage*(0.1*(time*0.000025 + energy*0.00005)));
+    return Math.round(weightage*(0.0001*(time*0.0+ energy*0.0005)));
 }
 
 function register_if_not_done(user_id){
