@@ -36,9 +36,10 @@ function startTimer() {
     elapsedTimeIntervalRef = setInterval(() =>{
         
         elapsedTimeText.innerText = timeAndDateHandling.getElapsedTime(startTime);
+        
+        var progressBarWidth = initTime / timetotal * 100;
 
         if (progressBarWidth < 90) {
-            var progressBarWidth = initTime / timetotal * 100;
             prog_bar.style.width = progressBarWidth + "%";
             initTime = initTime + 1;
         }
