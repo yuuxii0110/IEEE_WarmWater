@@ -16,7 +16,9 @@
         var user_id = "warmwater";
         var device_id = "6969";
         var credit = 0;
-        
+        var tokenCount = 0;
+        var tokenLimit = 1000;
+
         function start_action(){
             //To do
             console.log("Start session");
@@ -29,7 +31,7 @@
 
             startTimer();
             bicycleImg.src = "images/cycling.gif";
-            
+
         }
 
         function stop_session(){
@@ -97,6 +99,16 @@
             //to do: msg is the current credit earned
             current_credit = msg;
             earnedToken.innerText = current_credit;
+
+            // update progress bar
+            var progressBarWidth = tokenCount / tokenLimit * 100;
+
+            if (progressBarWidth < 90) {
+                prog_bar.style.width = progressBarWidth + "%";
+            }
+            else{
+                prog_bar.style.backgroundColor = "#7CFC00";
+            }
         });
         
 
