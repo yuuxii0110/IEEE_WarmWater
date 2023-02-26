@@ -101,7 +101,7 @@
             earnedToken.innerText = current_credit;
 
             // update progress bar
-            var progressBarWidth = tokenCount / tokenLimit * 100;
+            var progressBarWidth = current_credit / tokenLimit * 100;
 
             if (progressBarWidth < 90) {
                 prog_bar.style.width = progressBarWidth + "%";
@@ -272,7 +272,7 @@
 
         <div class="right-col">
             <div style="height: 80px; padding-bottom: 30px;">
-                <h2 style="text-align: center; color: white;">Time Elapsed: <span class ="elapsed-time-text">00:00</span></h2>
+                <h2 style="text-align: center; color: black;">Time Elapsed: <span class ="elapsed-time-text" style="color: white;">00:00</span></h2>
             
                 <div class="progressBar">
                     <div id="bar"></div>
@@ -280,7 +280,7 @@
             </div>
 
             <div style="height: 80px; padding-bottom: 50px;">
-                <h2 style="text-align: center; color: white;">Tokens earn from current workout</h2>
+                <h2 style="text-align: center; color: black;">Tokens earn from current workout</h2>
                 
                 <div style="display: flex;">
                     <div style="float:left; padding-left: 50px; flex: 50%;">
@@ -288,7 +288,7 @@
                     </div>
     
                     <div style="flex: 50%;">
-                        <span id="token">0</span>
+                        <span id="token" style="color:white; font-family: Playfair Display, serif; font-weight: 750; ">100</span>
                     </div>
                 </div>  
             </div>
